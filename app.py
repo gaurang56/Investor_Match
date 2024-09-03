@@ -97,4 +97,4 @@ Please provide the list in a clear, easy-to-read format. Start directly with the
     return jsonify({"investors": response})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
