@@ -1,4 +1,3 @@
-import os
 from flask import Flask, request, jsonify, render_template
 from dotenv import load_dotenv
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -7,6 +6,7 @@ from langchain_community.vectorstores import FAISS
 from langchain_openai import ChatOpenAI
 from langchain.chains.question_answering import load_qa_chain
 from langchain_community.callbacks import get_openai_callback
+import os
 from openai import OpenAI
 import pandas as pd
 
@@ -54,7 +54,7 @@ def find_investors():
     location = request.form['location']
 
     # Load investor data
-    investor_file_path = os.path.join(os.path.dirname(__file__), "investors.csv")
+    investor_file_path = "/Users/gaurangdeka/PycharmProjects/InvestorMatch/investors.csv"
 
     if not os.path.exists(investor_file_path):
         return jsonify({"error": "Investor data file not found."})
@@ -97,4 +97,4 @@ Please provide the list in a clear, easy-to-read format. Start directly with the
     return jsonify({"investors": response})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+    app.run(debug=True)
