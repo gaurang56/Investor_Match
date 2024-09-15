@@ -54,7 +54,7 @@ def find_investors():
     location = request.form['location']
 
     # Load investor data
-    investor_file_path = "/Users/gaurangdeka/PycharmProjects/InvestorMatch/investors.csv"
+    investor_file_path = "investorbase.csv"
 
     if not os.path.exists(investor_file_path):
         return jsonify({"error": "Investor data file not found."})
