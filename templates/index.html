@@ -71,6 +71,7 @@
         document.getElementById('investorForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const formData = new FormData(this);
+            console.log(formData.entries)
             fetch('/find_investors', {
                 method: 'POST',
                 body: formData
