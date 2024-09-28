@@ -6,6 +6,7 @@ from langchain_community.vectorstores import FAISS
 from langchain_openai import ChatOpenAI
 from langchain.chains.question_answering import load_qa_chain
 from langchain_community.callbacks import get_openai_callback
+from flask_cors import CORS
 import os
 from openai import OpenAI
 import pandas as pd
@@ -39,6 +40,9 @@ def create_vectorstore(text):
 
 # Global variable to store the VectorStore
 VectorStore = None
+
+#CORS
+CORS(app, origins=["http://localhost:3001"])
 
 @app.route('/')
 def home():
