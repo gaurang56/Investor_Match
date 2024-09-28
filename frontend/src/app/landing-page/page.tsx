@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import { useState, useEffect } from 'react'
 import { motion, useAnimation, AnimatePresence } from 'framer-motion'
@@ -29,6 +29,8 @@ export default function LandingPage() {
   const toggleBurgerButton = () => {
     setBurgerVisibility(!burgerVisible);
 };
+
+
 
   useEffect(() => {
     if (inView) {
