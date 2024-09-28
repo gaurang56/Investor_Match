@@ -90,7 +90,11 @@ export default function LandingPage() {
                     Contact
                     <span className="absolute left-0 bottom-0 h-[2px] w-full bg-indigo-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
                     </a>
-                        <Button size="default" className="mr-4 bg-indigo-600 hover:bg-indigo-700 text-white">Login</Button>
+                    <a href="/login">
+                    <Button size="default" className="mr-4 bg-indigo-600 hover:bg-indigo-700 text-white">Login</Button>
+
+                    </a>
+                        
                 </div>
                 <div onClick={toggleBurgerButton} className="lg:hidden">
                     <Sheet>

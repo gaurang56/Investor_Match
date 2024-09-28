@@ -29,10 +29,31 @@ import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+interface SocialLinks {
+  Twitter?: string;
+  LinkedIn?: string;
+  Facebook?: string;
+}
+interface ContactDetails {
+  "Partner Name": string;
+  Email: string;
+  Website: string;
+  "Social Links": SocialLinks;
+}
+interface Investor {
+  "Investor Name": string;
+  "Fund Focus Areas": string;
+  Location: string;
+  "Contact Details": ContactDetails;
+  "Likelihood to Invest": string;
+  "Match Reason": string;
+}
 
 export default function Home() {
   const [result, setResult] = useState<any>([]);
-  const [fixedResult, setFixedResult] = useState<any>([])
+  const [investorsData, setInvestorsData] = useState<Investor[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedFocus, setSelectedFocus] = useState<string | null>(null);
   const shouldBlur = (likelihood: string) => parseInt(likelihood) > 75;
   const [isDarkMode, setIsDarkMode] = useState(false);
   const getLikelihoodColor = (likelihood: string) => {
@@ -57,14 +78,10 @@ export default function Home() {
       }
 
       const data = await response.json();
-      const investmentDataArray = data.investors
-    .trim()  // Remove leading/trailing whitespace
-    .split(/(?<=\d\.)\s+/) // Split on entries that start with a number followed by a dot
-    .map(entry => entry.trim()) // Trim each entry
-    .filter(entry => entry.length > 0);
-    setFixedResult(investmentDataArray)
-      console.log(investmentDataArray)  
-      setResult(data.investors);
+        
+      let cleanedResultString = data.investors.replace(/```/g, '').replace(/json/g, '').trim();
+      console.log(cleanedResultString)
+      setInvestorsData(JSON.parse(cleanedResultString));
     } catch (error) {
       console.error('Error:', error);
       setResult('An error occurred. Please try again.');
@@ -75,6 +92,20 @@ export default function Home() {
       return word.length > 3 ? "●".repeat(word.length) : word;
     });
   };
+  const uniqueFocusAreas = Array.from(
+    new Set(
+      investorsData.flatMap((investor) =>
+        investor["Fund Focus Areas"].split(", ")
+      )
+    )
+  );
+  const filteredInvestors = investorsData.filter(
+    (investor) =>
+      investor["Investor Name"]
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) &&
+      (!selectedFocus || investor["Fund Focus Areas"].includes(selectedFocus))
+  );
 
   return (
     <div>
@@ -118,16 +149,94 @@ export default function Home() {
 
             <Input className="bg-white" id = "location" name="location" required placeholder="Location"/>
 
-            <Button type="submit">Find Matching Investors</Button>
+            <Button className="bg-indigo-900 hover:bg-indigo-800" type="submit">Find Matching Investors</Button>
 
 
         </form>
 
         </div>
 
+        <div
+      className={`min-h-screen ${
+        isDarkMode ? "bg-gray-900 text-gray-100" : "bg-gray-100 text-gray-900"
+      } transition-colors duration-300`}
+    >
+      <div className="p-4 sm:p-8">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl sm:text-4xl font-bold text-center">
+            Investor Dashboard
+          </h1>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setIsDarkMode(!isDarkMode)}
+            className={`rounded-full ${
+              isDarkMode
+                ? "bg-gray-800 text-yellow-400 hover:bg-gray-700"
+                : "bg-white text-gray-900 hover:bg-gray-100"
+            }`}
+          >
+            {isDarkMode ? (
+              <SunIcon className="h-5 w-5" />
+            ) : (
+              <MoonIcon className="h-5 w-5" />
+            )}
+          </Button>
+        </div>
+
+        <div className="mb-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div className="relative w-full sm:w-64">
+            <Input
+              type="text"
+              placeholder="Search investors..."
+              className={`pl-10 pr-4 py-2 ${
+                isDarkMode
+                  ? "bg-gray-800 text-gray-100 border-gray-700"
+                  : "bg-white text-gray-900 border-gray-300"
+              }`}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <SearchIcon className="absolute left-3 top-2.5 text-gray-400" />
+          </div>
+          <div className="flex flex-wrap justify-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setSelectedFocus(null)}
+              className={`${
+                !selectedFocus
+                  ? "bg-blue-600 text-white"
+                  : isDarkMode
+                  ? "text-blue-400 border-blue-400"
+                  : "text-blue-600 border-blue-600"
+              }`}
+            >
+              All
+            </Button>
+            {uniqueFocusAreas.map((focus) => (
+              <Button
+                key={focus}
+                variant="outline"
+                size="sm"
+                onClick={() => setSelectedFocus(focus)}
+                className={`${
+                  selectedFocus === focus
+                    ? "bg-blue-600 text-white"
+                    : isDarkMode
+                    ? "text-blue-400 border-blue-400"
+                    : "text-blue-600 border-blue-600"
+                }`}
+              >
+                {focus}
+              </Button>
+            ))}
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <AnimatePresence>
-            {fixedResult.map((investor:any, index:any) => (
+            {filteredInvestors.map((investor, index) => (
               <motion.div
                 key={investor["Investor Name"]}
                 initial={{ opacity: 0, y: 20 }}
@@ -137,19 +246,21 @@ export default function Home() {
               >
                 <Card
                   className={`${
-                    "bg-white"
+                    isDarkMode ? "bg-gray-800" : "bg-white"
                   } shadow-lg hover:shadow-xl transition-shadow duration-300 h-full flex flex-col`}
                 >
                   <CardHeader
                     className={`${
-                       "bg-gray-50 border-gray-200"
+                      isDarkMode
+                        ? "bg-gray-750 border-gray-700"
+                        : "bg-gray-50 border-gray-200"
                     } border-b`}
                   >
                     <CardTitle className="flex flex-col gap-2">
                       <div className="flex justify-between items-start w-full">
                         <span
                           className={`text-lg font-semibold ${
-                            "text-gray-800"
+                            isDarkMode ? "text-gray-100" : "text-gray-800"
                           } break-words pr-2`}
                         >
                           {shouldBlur(investor["Likelihood to Invest"])
@@ -166,7 +277,7 @@ export default function Home() {
                           </Badge>
                           <span
                             className={`text-xs mt-1 ${
-                               "text-gray-600"
+                              isDarkMode ? "text-gray-400" : "text-gray-600"
                             }`}
                           >
                             Investment Likelihood
@@ -178,7 +289,7 @@ export default function Home() {
                   <CardContent className="pt-4 flex-grow relative">
                     <p
                       className={`text-sm ${
-                       "text-gray-600"
+                        isDarkMode ? "text-gray-300" : "text-gray-600"
                       } mb-4`}
                     >
                       {shouldBlur(investor["Likelihood to Invest"])
@@ -188,12 +299,14 @@ export default function Home() {
                     <div className="flex flex-wrap gap-2 mb-4">
                       {investor["Fund Focus Areas"]
                         .split(", ")
-                        .map((area:any, idx:any) => (
+                        .map((area, idx) => (
                           <Badge
                             key={idx}
                             variant="secondary"
                             className={`${
-                               "bg-blue-100 text-blue-800"
+                              isDarkMode
+                                ? "bg-blue-900 text-blue-100"
+                                : "bg-blue-100 text-blue-800"
                             } text-xs`}
                           >
                             {area}
@@ -202,7 +315,7 @@ export default function Home() {
                     </div>
                     <div
                       className={`flex items-center mb-2 ${
-                         "text-gray-600"
+                        isDarkMode ? "text-gray-300" : "text-gray-600"
                       }`}
                     >
                       <MapPinIcon className="w-4 h-4 mr-2 text-gray-400" />
@@ -311,6 +424,9 @@ export default function Home() {
             ))}
           </AnimatePresence>
         </div>
+      </div>
+    </div>
+
       
       
     </div>
