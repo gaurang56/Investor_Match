@@ -26,6 +26,7 @@ except Exception as e:
     print(f"Error: {e}")
     raise
 
+
 def create_vectorstore(text):
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=1000,
@@ -38,15 +39,18 @@ def create_vectorstore(text):
     vectorstore = FAISS.from_texts(chunks, embedding=embeddings)
     return vectorstore
 
+
 # Global variable to store the VectorStore
 VectorStore = None
 
-#CORS
-CORS(app, origins=["http://localhost:3001"])
+# CORS
+CORS(app)
+
 
 @app.route('/')
 def home():
     return render_template('index.html')
+
 
 @app.route('/find_investors', methods=['POST'])
 def find_investors():
@@ -68,37 +72,84 @@ def find_investors():
         text = "\n".join(df.values.astype(str).flatten())
         VectorStore = create_vectorstore(text)
 
-    prompt = f"""As an AI-powered investor matching system, your task is to analyze the given startup information and provide a list of potential investors who would be most likely to invest in this startup. The startup details are as follows:
+    startup_details = f"""
+    Industry: {industry}
+    Funding Stage: {stage}
+    Description: {description}
+    Location: {location}
+    """
 
-Industry: {industry}
-Funding Stage: {stage}
-Description: {description}
-Location: {location}
+    json_structure = """
+    {
+      "Investor Name": "string",
+      "Fund Focus Areas": "string",
+      "Location": "string",
+      "Contact Details": {
+        "Partner Name": "string",
+        "Email": "string",
+        "Website": "string",
+        "Social Links": {
+          "Twitter": "string",
+          "LinkedIn": "string",
+          "Facebook": "string"
+        }
+      },
+      "Likelihood to Invest": "number %",
+      "Match Reason": "string"
+    }
+    """
 
-Based on this information, please provide a list of 5-10 investors who would be the best match for this startup. For each investor, include the following details:
-1. Name
-2. Investment Focus Areas (if they align with the startup's industry)
-3. Preferred Investment Stages
-4. Brief explanation of why this investor would be a good match
-5. Location
-6. Contact details/ any links
+    prompt = f"""
+    As an AI-powered investor matching system, your task is to analyze the given startup information and provide a list of potential investors from the database who are most likely to invest in this startup. The startup details are as follows:
 
-When selecting investors, consider the following factors:
-1. Industry alignment
-2. Stage preference
-3. Geographic focus (if any)
-4. Investment thesis alignment with the startup's description
+    {startup_details}
 
-Please provide the list in a clear, easy-to-read format. Start directly with the list of investors without any introductory text."""
+    Using the following investor data fields to evaluate matches:
+    - Investor Name
+    - Fund Type
+    - Website (if available)
+    - Fund Focus (Sectors)
+    - Partner Name
+    - Partner Email
+    - Location
+    - Twitter Link
+    - LinkedIn Link
+    - Facebook Link
+
+    You will use the following internal fields for context but do not display them to the user:
+    - Fund Description
+    - Portfolio Companies
+    - Number of Investments
+    - Number of Exits
+    - Preferred Investment Stages
+
+    Evaluate the following key criteria when selecting potential investors:
+    1. **Industry alignment**: Ensure that the investor's fund focus (sectors) aligns with the startup's industry and market niche.
+    2. **Investment stage**: Match the startup's funding stage with the investor’s preferred fund stage.
+    3. **Geographic proximity**: Consider location relevance, favoring investors who are in or focus on regions near the startup's location, but do not exclude global opportunities where geography is not a limiting factor.
+    4. **Portfolio companies fit**: If available, assess whether the startup aligns with the types of companies already in the investor’s portfolio (similar markets, technologies, or sectors).
+    5. **Investment thesis alignment**: Look at the fund description to ensure that the investor’s philosophy or thesis aligns with the startup’s vision or mission, and explain why this investor would be a strategic match.
+
+    Based on this data, provide a list of **5-10 investors** who would be the best match for this startup. Return the result in the following JSON format for each investor:
+
+    {json_structure}
+
+    The match reason should priortize the startup description when matching with an investor.
+
+
+
+    Please provide the results directly in JSON format without any additional explanations or text before/after it.
+    """
 
     docs = VectorStore.similarity_search(query=prompt, k=3)
-    llm = ChatOpenAI(model_name="gpt-4-1106-preview")
+    llm = ChatOpenAI(model_name="gpt-4o-mini")
     chain = load_qa_chain(llm=llm, chain_type="stuff")
 
     with get_openai_callback() as cb:
         response = chain.run(input_documents=docs, question=prompt)
 
     return jsonify({"investors": response})
+
 
 if __name__ == '__main__':
     app.run(debug=True)
