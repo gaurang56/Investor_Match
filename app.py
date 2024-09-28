@@ -138,7 +138,7 @@ def find_investors():
 
 
 
-    Please provide the results directly in JSON format without any additional explanations or text before/after it.
+    Please provide the results directly in JSON format without any additional explanations starting and ending with square brackets.
     """
 
     docs = VectorStore.similarity_search(query=prompt, k=3)
