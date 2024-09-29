@@ -8,15 +8,23 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Moon, Sun, Rocket, Zap, Target, ChevronRight, Percent, CheckCircle, Menu } from 'lucide-react'
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import waitlist from '@zootools/waitlist-js'
 
 import {Search, Handshake } from 'lucide-react';
 
 export default function EnhancedDynamicLandingPage() {
+
   const [darkMode, setDarkMode] = useState(false)
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   })
+  const clickPopup = (event:any) => {
+  event.preventDefault();
+
+
+  waitlist.openPopup("JLsjU7BVUrHo0csFWpTq")
+}
 
   const { scrollYProgress } = useScroll()
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2])
