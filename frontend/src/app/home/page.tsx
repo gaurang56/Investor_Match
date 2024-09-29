@@ -110,8 +110,9 @@ export default function Home() {
   return (
     <div>
         <Header/>
-        <h1 className="text-[#333] text-[36px] font-bold mx-8">Startup Investor Matcher</h1>
-        <div className="bg-[#ECECEC] px-8 py-4 ">
+        
+        <div className="bg-[#ECECEC] px-8 py-8">
+        <h1 className="text-[#333] text-[36px] font-bold ">Startup Investor Matcher</h1>
         <form className="flex gap-4" onSubmit={handleSubmit}>
             <Input className="bg-white" id="description" name="description"  placeholder="Describe your startup" required/>
             <Select  name="industry" required>

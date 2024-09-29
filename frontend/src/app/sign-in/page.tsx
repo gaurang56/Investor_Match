@@ -64,7 +64,11 @@ const Login = () => {
               <a href="#" className="text-sm text-blue-600 hover:underline">Forgot Password?</a>
             </div>
 
-            <Button className="w-full" type="submit">Sign In</Button>
+            <a href="/home">
+              <Button className="w-full" type="submit">Sign Up</Button>
+
+            </a>
+            
           </form>
         </CardContent>
 

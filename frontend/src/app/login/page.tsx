@@ -30,7 +30,7 @@ const Login = () => {
 
         <CardContent>
           <form onSubmit={handleSubmit}>
-            {/* Email */}
+
             <div className="mb-4">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -66,10 +66,14 @@ const Login = () => {
               <a href="#" className="text-sm text-blue-600 hover:underline">Forgot Password?</a>
             </div>
 
+            <a href="/home">
+              <Button className="w-full" type="submit">Login</Button>
 
-            <Button className="w-full" type="submit">Sign In</Button>
+            </a>
+            
           </form>
         </CardContent>
+
 
         <CardFooter className="text-center">
           <p className="text-sm">
