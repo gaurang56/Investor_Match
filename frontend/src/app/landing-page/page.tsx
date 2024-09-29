@@ -9,6 +9,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/componen
 import { Moon, Sun, Rocket, Zap, Target, ChevronRight, Percent, CheckCircle, Menu } from 'lucide-react'
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
+import {Search, Handshake } from 'lucide-react';
+
 export default function EnhancedDynamicLandingPage() {
   const [darkMode, setDarkMode] = useState(false)
   const [ref, inView] = useInView({
@@ -48,7 +50,7 @@ export default function EnhancedDynamicLandingPage() {
   }
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'} transition-colors duration-300`}>
+    <div id="home" className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'} transition-colors duration-300`}>
 
       <motion.div
         className={`${darkMode ? 'bg-gray-800' : 'bg-white'} fixed top-0 left-0 right-0 shadow-lg z-50 transition-colors duration-300`}
@@ -65,7 +67,7 @@ export default function EnhancedDynamicLandingPage() {
             VentureMate
           </motion.p>
           <div className="space-x-4 hidden lg:flex items-center">
-            {['Home', 'Features', 'Pricing', 'Team', 'Contact'].map((item, index) => (
+            {['Home', 'Features', 'Pricing', 'Waitlist'].map((item, index) => (
               <motion.a
                 key={item}
                 href={`#${item.toLowerCase()}`}
@@ -112,7 +114,7 @@ export default function EnhancedDynamicLandingPage() {
               <SheetContent className={darkMode ? 'bg-gray-800 text-white' : 'bg-white'}>
                 <SheetClose asChild>
                   <div className='flex flex-col gap-4 mt-8'>
-                    {['Home', 'Features', 'Pricing', 'Team', 'Contact'].map((item) => (
+                    {['Home', 'Features', 'Pricing','Waitlist'].map((item) => (
                       <motion.a
                         key={item}
                         href={`#${item.toLowerCase()}`}
@@ -216,7 +218,7 @@ export default function EnhancedDynamicLandingPage() {
   </motion.div>
 
 
-  <div className="container mx-auto text-center relative z-10">
+  <div  className="container mx-auto text-center relative z-10">
     <motion.h1
       className="text-4xl md:text-6xl font-bold mb-6"
       initial={{ opacity: 0, y: -20 }}
@@ -238,9 +240,13 @@ export default function EnhancedDynamicLandingPage() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.8, duration: 0.8 }}
     >
-      <Button size="lg" className={`mr-4 ${darkMode ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-indigo-600 hover:bg-indigo-700'} text-white`}>
+      <a href="#waitlist">
+      <Button  size="lg" className={`mr-4 ${darkMode ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-indigo-600 hover:bg-indigo-700'} text-white`}>
         Join the Waitlist
       </Button>
+
+      </a>
+      
       <Button size="lg" variant="outline" className={`border-indigo-600 ${darkMode ? 'text-indigo-400 hover:bg-indigo-900' : 'text-indigo-600 hover:bg-indigo-50'}`}>
         Learn More
       </Button>
@@ -251,6 +257,7 @@ export default function EnhancedDynamicLandingPage() {
 
 
       <motion.section
+      id="features"
         ref={ref}
         className="container mx-auto px-4 py-16"
         variants={staggerChildren}
@@ -292,6 +299,45 @@ export default function EnhancedDynamicLandingPage() {
         </div>
       </motion.section>
 
+      {/* How It Works Section */}
+<section id="howItWorks" className="lg:px-40 py-20 bg-gradient-to-r from-indigo-50 to-blue-50">
+  <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-indigo-900">How It Works</h2>
+  <div className="relative">
+    <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-indigo-200"></div>
+    {[
+      { step: 1, title: "Input your startup details", description: "Provide comprehensive information about your startup", icon: <Rocket className="hidden lg:block w-8 h-8 text-indigo-600" /> },
+      { step: 2, title: "Our AI analyzes and matches", description: "Advanced algorithms process your data to find ideal investors", icon: <Search className="hidden lg:block w-8 h-8 text-indigo-600" /> },
+      { step: 3, title: "Connect with top-matching investors", description: "Receive a curated list of investors tailored to your startup", icon: <Handshake className="hidden lg:block w-8 h-8 text-indigo-600" /> }
+    ].map((item, index) => (
+      <motion.div
+        key={item.step}
+        className={`flex items-center mb-12 ${item.step % 2 === 0 ? 'flex-row-reverse' : ''}`}
+        initial={{ opacity: 0, x: item.step % 2 === 0 ? 50 : -50, scale: 0.8 }}
+        whileInView={{ opacity: 1, x: 0, scale: 1 }}
+        viewport={{ once: true, amount: 0.8 }}
+        transition={{ duration: 0.5, delay: index * 0.2 }}
+      >
+        <div className="w-1/2 px-4 flex items-center">
+          {item.icon} {/* Display icon */}
+          <div className="ml-4">
+            <h3 className="text-2xl font-bold mb-2 text-indigo-900">{item.title}</h3>
+            <p className="text-indigo-600">{item.description}</p>
+          </div>
+        </div>
+        <motion.div
+          className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center z-10 text-white font-bold"
+          initial={{ rotate: 0 }}
+          whileInView={{ rotate: 360 }}
+          transition={{ duration: 1 }}
+        >
+          {item.step}
+        </motion.div>
+        <div className="w-1/2 px-4"></div>
+      </motion.div>
+    ))}
+  </div>
+</section>
+
 
       <section className={`py-20 ${darkMode ? 'bg-gray-800' : 'bg-indigo-50'}`}>
         <div className="container mx-auto px-4">
@@ -312,10 +358,10 @@ export default function EnhancedDynamicLandingPage() {
             viewport={{ once: true }}
           >
             <motion.div
-              className={`flex items-center justify-center w-64 h-64 rounded-full ${darkMode ? 'bg-indigo-900' : 'bg-indigo-600'}`}
+              className={`flex items-center justify-center w-32 lg:w-64 h-32 lg:h-64 rounded-full ${darkMode ? 'bg-indigo-900' : 'bg-indigo-600'}`}
               variants={fadeInUp}
             >
-              <Percent className="w-32 h-32 text-white" />
+              <Percent className="w-16 lg:w-32 h-16 lg:h-32 text-white" />
             </motion.div>
             <motion.div
               className="max-w-md text-center md:text-left"
@@ -386,7 +432,7 @@ export default function EnhancedDynamicLandingPage() {
       </section>
 
 
-      <section className={`py-20 ${darkMode ? 'bg-indigo-900' : 'bg-indigo-600'} relative overflow-hidden`}>
+      <section id="waitlist" className={`py-20 ${darkMode ? 'bg-indigo-900' : 'bg-indigo-600'} relative overflow-hidden`}>
         <motion.div
           className="absolute inset-0 opacity-30"
           animate={{
