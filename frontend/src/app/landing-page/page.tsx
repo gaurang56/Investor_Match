@@ -347,7 +347,7 @@ export default function EnhancedDynamicLandingPage() {
 </section>
 
 
-      <section className={`py-20 ${darkMode ? 'bg-gray-800' : 'bg-indigo-50'}`}>
+      <section className={`py-20 ${darkMode ? 'bg-gray-800' : 'bg-indigo-100'}`}>
         <div className="container mx-auto px-4">
           <motion.h2
             className={`text-3xl md:text-4xl font-bold mb-12 text-center ${darkMode ? 'text-indigo-300' : 'text-indigo-900'}`}
@@ -478,8 +478,8 @@ export default function EnhancedDynamicLandingPage() {
             transition={{ duration: 0.6, delay: 0.4 }}
             viewport={{ once: true }}
           >
-            <Input type="email" placeholder="Enter your email" className="max-w-sm bg-white text-indigo-900 placeholder-indigo-400" />
-            <Button size="lg" className="bg-white hover:bg-indigo-100 text-indigo-900">
+
+            <Button size="lg" className="bg-white hover:bg-indigo-100 text-indigo-900" onClick={clickPopup}>
               Join Waitlist <ChevronRight className="ml-2" />
             </Button>
           </motion.div>
