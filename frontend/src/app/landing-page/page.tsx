@@ -1,42 +1,36 @@
 "use client"
 
 import { useState, useEffect } from 'react'
-import { motion, useAnimation, AnimatePresence } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { ArrowRight, CheckCircle, DollarSign, LineChart, Search, Users, ChevronRight } from 'lucide-react'
-import {Sheet,SheetClose,SheetContent,SheetDescription,SheetFooter,SheetHeader,SheetTitle,SheetTrigger,} from "@/components/ui/sheet"
-import { Label } from "@/components/ui/label"
-import { Menu } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
+import { Moon, Sun, Rocket, Zap, Target, ChevronRight, Percent, CheckCircle, Menu } from 'lucide-react'
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-const MotionCard = motion(Card)
-
-export default function LandingPage() {
-  const controls = useAnimation()
+export default function EnhancedDynamicLandingPage() {
+  const [darkMode, setDarkMode] = useState(false)
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   })
-  const [step, setStep] = useState(0)
-  const [industry, setIndustry] = useState('')
-  const [fundingGoal, setFundingGoal] = useState('')
-  const [burgerVisible, setBurgerVisibility] = useState(false);
-  const toggleBurgerButton = () => {
-    setBurgerVisibility(!burgerVisible);
-};
 
-
+  const { scrollYProgress } = useScroll()
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2])
+  const y = useTransform(scrollYProgress, [0, 1], [0, -100])
 
   useEffect(() => {
-    if (inView) {
-      controls.start('visible')
+    if (darkMode) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
     }
-  }, [controls, inView])
+  }, [darkMode])
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode)
+  }
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
@@ -53,382 +47,393 @@ export default function LandingPage() {
     },
   }
 
-  const handleContinue = () => {
-    if (step === 0 && industry) {
-      setStep(1)
-    } else if (step === 1 && fundingGoal) {
-      console.log({ industry, fundingGoal })
-      // Here you would typically send this data to your backend or perform some action
-      setStep(2)
-    }
-  }
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white">
-        {/* sticky header */}
-        <div className="bg-white fixed top-0 left-0 right-0 shadow-lg z-50 lg:px-32 px-10">
-            <div className="flex justify-between items-center p-4">
-                <p className="text-xl font-bold">VentureMate</p>
-                <div className="space-x-4 hidden lg:block">
-                    <a href="#" className="relative inline-block group hover:text-indigo-600">
-                    Home
-                    <span className="absolute left-0 bottom-0 h-[2px] w-full bg-indigo-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
-                    </a>
-                    <a href="#howItWorks" className="relative inline-block group hover:text-indigo-600">
-                    Services
-                    <span className="absolute left-0 bottom-0 h-[2px] w-full bg-indigo-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
-                    </a>
-                    <a href="#pricing" className="relative inline-block group hover:text-indigo-600">
-                    Pricing
-                    <span className="absolute left-0 bottom-0 h-[2px] w-full bg-indigo-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
-                    </a>
-                    <a href="#" className="relative inline-block group hover:text-indigo-600">
-                    Team
-                    <span className="absolute left-0 bottom-0 h-[2px] w-full bg-indigo-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
-                    </a>
-                    <a href="#contact" className="relative inline-block group hover:text-indigo-600">
-                    Contact
-                    <span className="absolute left-0 bottom-0 h-[2px] w-full bg-indigo-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
-                    </a>
-                    <a href="/login">
-                    <Button size="default" className="mr-4 bg-indigo-600 hover:bg-indigo-700 text-white">Login</Button>
+    <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'} transition-colors duration-300`}>
 
-                    </a>
-                        
-                </div>
-                <div onClick={toggleBurgerButton} className="lg:hidden">
-                    <Sheet>
-                        <SheetTrigger asChild>
-                            <Menu />
-                        </SheetTrigger>
-                        <SheetContent className='bg-white'>
-                            <SheetClose asChild>
-                                <div className='flex flex-col gap-4'>
-                                    
-                                    <a href="#">Home</a>
-                                    <a href="#howItWorks">Services</a>
-                                    <a href="#pricing">Pricing</a>
-                                    <a>Team</a>
-                                    <a href="#contact">Contact</a>
-
-                                </div>
-                                
-                            </SheetClose>
-                            
-                            
-                    
-                        </SheetContent>
-                    </Sheet>
-
-                </div>
-            </div>
-        </div>
-
-        <div className='lg:flex items-center justify-center pt-60 pb-44 px-20 gap-10'>
-        
-      {/* Hero Section */}
-      <section className="container text-center">
-        <motion.h1 
-          className="text-4xl md:text-6xl font-bold mb-6 text-indigo-900"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          Connect with the Right Investors, Faster
-        </motion.h1>
-        <motion.p 
-          className="text-xl md:text-2xl mb-8 text-indigo-600"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4, duration: 0.8 }}
-        >
-          AI-powered matching for startups and VCs
-        </motion.p>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.8 }}
-        >
-          <Button size="lg" className="mr-4 bg-indigo-600 hover:bg-indigo-700 text-white">Get Started</Button>
-          <Button size="lg" variant="outline" className="border-indigo-600 text-indigo-600 hover:bg-indigo-50">Learn More</Button>
-        </motion.div>
-      </section>
-
-      {/* Personalized Onboarding Widget */}
-      <section className="container mt-10 lg:mt-0">
-        <Card className="bg-white border-0 shadow-2xl rounded-2xl overflow-hidden">
-          <CardContent className="p-0">
-            <div className="grid grid-cols-1 md:grid-cols-3">
-              <div className="bg-indigo-900 text-white p-8 flex flex-col justify-center">
-                <h3 className="text-2xl font-bold mb-4">Personalize Your Investor Matching</h3>
-                <p className="text-indigo-200">Tell us about your startup to get tailored recommendations</p>
-              </div>
-              <div className="col-span-2 p-8">
-                <AnimatePresence mode="wait">
-                  {step === 0 && (
-                    <motion.div
-                      key="industry"
-                      initial={{ opacity: 0, x: 50 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -50 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <h4 className="text-xl font-semibold mb-4 text-indigo-900">What's your industry?</h4>
-                      <Select onValueChange={setIndustry}>
-                        <SelectTrigger className="w-full mb-4">
-                          <SelectValue placeholder="Select your industry" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="tech">Technology</SelectItem>
-                          <SelectItem value="health">Healthcare</SelectItem>
-                          <SelectItem value="finance">Finance</SelectItem>
-                          <SelectItem value="ecommerce">E-commerce</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </motion.div>
-                  )}
-                  {step === 1 && (
-                    <motion.div
-                      key="funding"
-                      initial={{ opacity: 0, x: 50 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -50 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <h4 className="text-xl font-semibold mb-4 text-indigo-900">What's your funding goal?</h4>
-                      <Select onValueChange={setFundingGoal}>
-                        <SelectTrigger className="w-full mb-4">
-                          <SelectValue placeholder="Select your funding goal" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="seed">Seed ($100k - $1M)</SelectItem>
-                          <SelectItem value="seriesA">Series A ($1M - $5M)</SelectItem>
-                          <SelectItem value="seriesB">Series B ($5M - $20M)</SelectItem>
-                          <SelectItem value="seriesC">Series C ($20M+)</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </motion.div>
-                  )}
-                  {step === 2 && (
-                    <motion.div
-                      key="success"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.3 }}
-                      className="text-center"
-                    >
-                      <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                      <h4 className="text-xl font-semibold mb-2 text-indigo-900">Great! We're all set.</h4>
-                      <p className="text-indigo-600 mb-4">We'll use this information to find the best matches for you.</p>
-                      <Button className="bg-indigo-600 hover:bg-indigo-700 text-white">
-                        View Your Matches
-                      </Button>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-                {step < 2 && (
-                  <Button 
-                    className="w-full mt-4 bg-indigo-600 hover:bg-indigo-700 text-white flex items-center justify-center"
-                    onClick={handleContinue}
-                    disabled={(step === 0 && !industry) || (step === 1 && !fundingGoal)}
-                  >
-                    Continue <ChevronRight className="ml-2 w-4 h-4" />
+      <motion.div
+        className={`${darkMode ? 'bg-gray-800' : 'bg-white'} fixed top-0 left-0 right-0 shadow-lg z-50 transition-colors duration-300`}
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+      >
+        <div className="container mx-auto flex justify-between items-center p-4">
+          <motion.p
+            className="text-xl font-bold"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            VentureMate
+          </motion.p>
+          <div className="space-x-4 hidden lg:flex items-center">
+            {['Home', 'Features', 'Pricing', 'Team', 'Contact'].map((item, index) => (
+              <motion.a
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                className={`relative inline-block group ${darkMode ? 'hover:text-indigo-400' : 'hover:text-indigo-600'}`}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
+                {item}
+                <span className={`absolute left-0 bottom-0 h-[2px] w-full ${darkMode ? 'bg-indigo-400' : 'bg-indigo-600'} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300`}></span>
+              </motion.a>
+            ))}
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <Button onClick={toggleDarkMode} variant="ghost" size="icon" className="ml-4">
+                {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+              </Button>
+            </motion.div>
+          </div>
+          <div className="lg:hidden flex items-center">
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <Button onClick={toggleDarkMode} variant="ghost" size="icon" className="mr-2">
+                {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+              </Button>
+            </motion.div>
+            <Sheet>
+              <SheetTrigger asChild>
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <Button variant="ghost" size="icon">
+                    <Menu />
                   </Button>
-                )}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
-      </div>
+                </motion.div>
+              </SheetTrigger>
+              <SheetContent className={darkMode ? 'bg-gray-800 text-white' : 'bg-white'}>
+                <SheetClose asChild>
+                  <div className='flex flex-col gap-4 mt-8'>
+                    {['Home', 'Features', 'Pricing', 'Team', 'Contact'].map((item) => (
+                      <motion.a
+                        key={item}
+                        href={`#${item.toLowerCase()}`}
+                        className={`text-lg ${darkMode ? 'hover:text-indigo-400' : 'hover:text-indigo-600'}`}
+                        whileHover={{ scale: 1.1, x: 10 }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        {item}
+                      </motion.a>
+                    ))}
+                  </div>
+                </SheetClose>
+              </SheetContent>
+            </Sheet>
+          </div>
+        </div>
+      </motion.div>
 
-      {/* Animated Feature Section */}
-      <section className="container mx-auto px-4 " ref={ref}>
-        <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-indigo-900">Why Choose Us?</h2>
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
-          variants={staggerChildren}
-          initial="hidden"
-          animate={controls}
-        >
+
+<section className="relative overflow-hidden pt-32 pb-16 px-4">
+  <motion.div className="absolute inset-0 z-0">
+
+    <motion.div
+      className="absolute top-[10vh] left-[10vw] w-[20vw] h-[20vw] bg-indigo-300 rounded-full mix-blend-multiply filter blur-xl opacity-70"
+      animate={{
+        scale: [1, 1.2, 1],
+        x: [-20, 20, -20],
+        y: [10, -20, 10],
+        rotate: [0, 90, 0],
+      }}
+      transition={{
+        duration: 12,
+        repeat: Infinity,
+        repeatType: "mirror",
+      }}
+    />
+
+
+    <motion.div
+      className="absolute top-[25vh] right-[10vw] w-[25vw] h-[25vw] bg-indigo-400 rounded-full mix-blend-multiply filter blur-xl opacity-60"
+      animate={{
+        scale: [1, 1.3, 1],
+        x: [20, -20, 20],
+        y: [-10, 20, -10],
+        rotate: [0, -90, 0],
+      }}
+      transition={{
+        duration: 14,
+        repeat: Infinity,
+        repeatType: "mirror",
+      }}
+    />
+
+
+    <motion.div
+      className="absolute bottom-[15vh] left-[30vw] w-[30vw] h-[30vw] bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-70"
+      animate={{
+        scale: [1, 1.1, 1],
+        x: [-30, 30, -30],
+        y: [20, -30, 20],
+        rotate: [0, 60, 0],
+      }}
+      transition={{
+        duration: 10,
+        repeat: Infinity,
+        repeatType: "mirror",
+      }}
+    />
+
+
+    <motion.div
+      className="absolute top-[40vh] right-[25vw] w-[15vw] h-[15vw] bg-indigo-600 rounded-full mix-blend-multiply filter blur-xl opacity-50"
+      animate={{
+        scale: [1, 1.4, 1],
+        x: [-20, 30, -10],
+        y: [-30, 30, -10],
+        rotate: [0, 120, 0],
+      }}
+      transition={{
+        duration: 11,
+        repeat: Infinity,
+        repeatType: "mirror",
+      }}
+    />
+
+
+    <motion.div
+      className="absolute bottom-[5vh] right-[10vw] w-[12vw] h-[12vw] bg-indigo-700 rounded-full mix-blend-multiply filter blur-xl opacity-60"
+      animate={{
+        scale: [1, 1.3, 1],
+        x: [15, -15, 15],
+        y: [-20, 20, -10],
+        rotate: [0, -45, 0],
+      }}
+      transition={{
+        duration: 9,
+        repeat: Infinity,
+        repeatType: "mirror",
+      }}
+    />
+  </motion.div>
+
+
+  <div className="container mx-auto text-center relative z-10">
+    <motion.h1
+      className="text-4xl md:text-6xl font-bold mb-6"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+    >
+      Revolutionize Your Startup Journey
+    </motion.h1>
+    <motion.p
+      className="text-xl md:text-2xl mb-8"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.4, duration: 0.8 }}
+    >
+      AI-Powered Matchmaking for Startups and Investors
+    </motion.p>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.8, duration: 0.8 }}
+    >
+      <Button size="lg" className={`mr-4 ${darkMode ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-indigo-600 hover:bg-indigo-700'} text-white`}>
+        Join the Waitlist
+      </Button>
+      <Button size="lg" variant="outline" className={`border-indigo-600 ${darkMode ? 'text-indigo-400 hover:bg-indigo-900' : 'text-indigo-600 hover:bg-indigo-50'}`}>
+        Learn More
+      </Button>
+    </motion.div>
+  </div>
+</section>
+
+
+
+      <motion.section
+        ref={ref}
+        className="container mx-auto px-4 py-16"
+        variants={staggerChildren}
+        initial="hidden"
+        animate={inView ? "visible" : "hidden"}
+      >
+        <h2 className={`text-3xl md:text-4xl font-bold mb-12 text-center ${darkMode ? 'text-indigo-300' : 'text-indigo-900'}`}>
+          Ignite Your Startup's Potential
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
-            { icon: LineChart, title: "Precision Matching", content: "15+ metrics for accurate startup-VC alignment" },
-            { icon: Search, title: "Time-Saving Research", content: "Save months of manual investor research and outreach" },
-            { icon: Users, title: "Tailored Insights", content: "Rich investor data for customized pitching strategies" }
+            { icon: Rocket, title: "Blast Off with AI", content: "Our cutting-edge AI propels your startup to new heights, connecting you with the perfect investors at light speed." },
+            { icon: Zap, title: "Electrify Your Network", content: "Spark powerful connections and energize your startup's growth with our vast network of eager investors." },
+            { icon: Target, title: "Precision Matchmaking", content: "Hit the bullseye every time with our laser-focused investor matching, tailored to your unique startup DNA." }
           ].map((feature, index) => (
-            <MotionCard
+            <motion.div
               key={index}
               variants={fadeInUp}
-              className="border border-indigo-200 shadow-lg bg-white flex flex-col justify-center items-center transition-transform duration-300 transform hover:shadow-2xl hover:scale-120 group"
             >
-              <CardHeader className='flex justify-center items-center gap-4'>
-                <div className="border border-indigo-100 rounded-full p-4 flex justify-center items-center transition-colors duration-300 group-hover:bg-indigo-600">
-                    <feature.icon className="text-indigo-600 w-12 h-12 transition-colors duration-300 group-hover:text-white " />
-                </div>
-                <CardTitle className="flex items-center text-indigo-900 font-bold ">
-                  
-                  {feature.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="text-indigo-600">
-                {feature.content}
-              </CardContent>
-            </MotionCard>
-          ))}
-        </motion.div>
-      </section>
-
-      {/* How It Works Section */}
-      <section id="howItWorks" className="container mx-auto px-4 py-20 bg-indigo-50">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-indigo-900">How It Works</h2>
-        <div className="relative">
-          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-indigo-200"></div>
-          {[
-            { step: 1, title: "Input your startup details", description: "Provide comprehensive information about your startup" },
-            { step: 2, title: "Our AI analyzes and matches", description: "Advanced algorithms process your data to find ideal investors" },
-            { step: 3, title: "Connect with top-matching investors", description: "Receive a curated list of investors tailored to your startup" }
-          ].map((item, index) => (
-            <motion.div
-              key={item.step}
-              className={`flex items-center mb-12 ${item.step % 2 === 0 ? 'flex-row-reverse' : ''}`}
-              initial={{ opacity: 0, x: item.step % 2 === 0 ? 50 : -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.8 }}
-              transition={{ duration: 0.5, delay: index * 0.2 }}
-            >
-              <div className="w-1/2 px-4">
-                <h3 className="text-2xl font-bold mb-2 text-indigo-900">{item.title}</h3>
-                <p className="text-indigo-600">{item.description}</p>
-              </div>
-              <div className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center z-10 text-white font-bold">
-                {item.step}
-              </div>
-              <div className="w-1/2 px-4"></div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* Testimonial Section */}
-      <section className="container mx-auto px-4 py-20">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-indigo-900">What Our Users Say</h2>
-        <Tabs defaultValue="founder" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-8">
-            <TabsTrigger value="founder" className="text-lg">Founder</TabsTrigger>
-            <TabsTrigger value="investor" className="text-lg">Investor</TabsTrigger>
-          </TabsList>
-          {[
-            { value: "founder", name: "Sarah J.", role: "Tech Startup Founder", achievement: "Series A Raised", content: "This platform saved us months of research. We found the perfect investors for our AI-driven solution and closed our Series A in record time." },
-            { value: "investor", name: "Mark R.", role: "VC Partner", achievement: "Tech-Focused Fund", content: "The quality of startups we've been matched with is impressive. It's dramatically improved our deal flow and the efficiency of our investment process." }
-          ].map((testimonial) => (
-            <TabsContent key={testimonial.value} value={testimonial.value}>
-              <Card className="border border-indigo-200 shadow-lg bg-white">
-                <CardHeader>
-                  <CardTitle className="text-indigo-900">{testimonial.name}, {testimonial.role}</CardTitle>
-                  <CardDescription>{testimonial.achievement}</CardDescription>
+              <Card className={`h-full border ${darkMode ? 'border-indigo-700 bg-gray-800' : 'border-indigo-200 bg-white'} shadow-lg flex flex-col justify-center items-center transition-all duration-300 transform hover:scale-105 hover:shadow-2xl group`}>
+                <CardHeader className='flex flex-col items-center gap-4'>
+                  <motion.div
+                    className={`rounded-full p-4 flex justify-center items-center transition-colors duration-300 ${darkMode ? 'bg-indigo-900 group-hover:bg-indigo-800' : 'bg-indigo-100 group-hover:bg-indigo-600'}`}
+                    whileHover={{ rotate: 360 }}
+                    transition={{ duration: 0.6 }}
+                  >
+                    <feature.icon className={`w-8 h-8 ${darkMode ? 'text-indigo-400 group-hover:text-white' : 'text-indigo-600 group-hover:text-white'} transition-colors duration-300`} />
+                  </motion.div>
+                  <CardTitle className={`text-xl font-bold ${darkMode ? 'text-indigo-300' : 'text-indigo-900'}`}>
+                    {feature.title}
+                  </CardTitle>
                 </CardHeader>
-                <CardContent className="text-indigo-600">
-                  "{testimonial.content}"
+                <CardContent className={`text-center ${darkMode ? 'text-gray-300' : 'text-indigo-600'}`}>
+                  {feature.content}
                 </CardContent>
-              </Card>
-            </TabsContent>
-          ))}
-        </Tabs>
-      </section>
-
-      {/* Pricing Section */}
-      <section id="pricing" className="px-4 py-20 bg-indigo-50 flex flex-col items-center">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-indigo-900">Pricing Plans</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3">
-          {['Starter', 'Growth', 'Enterprise'].map((plan, index) => (
-            <motion.div
-              key={plan}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="flex"
-            >
-              <Card className={`flex flex-col border border-indigo-200 shadow-lg bg-white ${index === 1 ? 'border-indigo-500 shadow-indigo-100' : ''}`}>
-                <CardHeader>
-                  <CardTitle className="text-indigo-900">{plan}</CardTitle>
-                  <CardDescription>
-                    {index === 0 && 'For early-stage startups'}
-                    {index === 1 && 'For scaling companies'}
-                    {index === 2 && 'For large organizations'}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="flex-grow">
-                  <p className="text-3xl font-bold mb-4 text-indigo-900">
-                    {index === 0 && '$99'}
-                    {index === 1 && '$299'}
-                    {index === 2 && 'Custom'}
-                    <span className="text-sm font-normal text-indigo-600">/month</span>
-                  </p>
-                  <ul className="space-y-2">
-                    {[
-                      'Basic investor matching',
-                      'Limited profile views',
-                      '24/7 support',
-                      ...(index > 0 ? ['Advanced analytics', 'Unlimited matches'] : []),
-                      ...(index > 1 ? ['Dedicated account manager', 'Custom integrations'] : [])
-                    ].map((feature, i) => (
-                      <li key={i} className="flex items-center text-indigo-600">
-                        <CheckCircle className="mr-2 h-4 w-4 text-indigo-600" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-                <CardFooter>
-                  <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white">
-                    {index === 2 ? 'Contact Sales' : 'Get Started'}
-                  </Button>
-                </CardFooter>
               </Card>
             </motion.div>
           ))}
         </div>
-      </section>
+      </motion.section>
 
-      {/* FAQ Section */}
-      <section className="container mx-auto px-4 py-20">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-indigo-900">Frequently Asked Questions</h2>
-        <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto">
-          {[
-            { question: "How does the AI matching work?", answer: "Our AI uses 15+ metrics to analyze your startup profile and compare it with our extensive database of investors. It considers factors like industry focus, investment stage, funding amount, and more to find the most suitable matches." },
-            { question: "Is my data secure?", answer: "Absolutely. We use bank-level encryption and adhere to strict data protection regulations to ensure your information is always safe and confidential." },
-            { question: "How often is the investor database updated?", answer: "Our database is updated in real-time. As soon as new investor information becomes available or existing data changes, it's reflected in our system." },
-            { question: "Can I use this platform if I'm not a tech startup?", answer: "Yes! While we have a strong presence in the tech sector, our platform caters to startups across various industries. The AI adapts its matching criteria based on your specific sector." },
-            { question: "What if I'm not satisfied with the matches?", answer: "We offer a satisfaction guarantee. If you're not happy with your initial matches, our team will work with you to refine your profile and search criteria to improve results. We're committed to your success." }
-          ].map((faq, index) => (
-            <AccordionItem key={index} value={`item-${index}`} className="border border-indigo-200 mb-4 rounded-lg bg-white">
-              <AccordionTrigger className="text-left px-4 py-2 hover:no-underline hover:bg-indigo-50 rounded-t-lg text-indigo-900">
-                {faq.question}
-              </AccordionTrigger>
-              <AccordionContent className="px-4 py-2 text-indigo-600">
-                {faq.answer}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </section>
 
-      {/* Call to Action Section */}
-      <section id="contact"className="mx-auto px-4 py-20 text-center bg-gradient-to-r from-indigo-500 to-purple-600 text-white ">
-        <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Transform Your Fundraising?</h2>
-        <p className="text-xl mb-8 text-indigo-100">Join thousands of startups finding their perfect investors</p>
-        <div className="flex justify-center items-center space-x-4">
-          <Input type="email" placeholder="Enter your email" className="max-w-sm border-indigo-300 bg-white text-indigo-900 placeholder-indigo-400" />
-          <Button size="lg" className="flex items-center bg-white hover:bg-indigo-100 text-indigo-600">
-            Get Started <ArrowRight className="ml-2" />
-          </Button>
+      <section className={`py-20 ${darkMode ? 'bg-gray-800' : 'bg-indigo-50'}`}>
+        <div className="container mx-auto px-4">
+          <motion.h2
+            className={`text-3xl md:text-4xl font-bold mb-12 text-center ${darkMode ? 'text-indigo-300' : 'text-indigo-900'}`}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            Predict Your Investment Success
+          </motion.h2>
+          <motion.div
+            className="flex flex-col md:flex-row items-center justify-center gap-8"
+            variants={staggerChildren}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            <motion.div
+              className={`flex items-center justify-center w-64 h-64 rounded-full ${darkMode ? 'bg-indigo-900' : 'bg-indigo-600'}`}
+              variants={fadeInUp}
+            >
+              <Percent className="w-32 h-32 text-white" />
+            </motion.div>
+            <motion.div
+              className="max-w-md text-center md:text-left"
+              variants={fadeInUp}
+            >
+              <h3 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-indigo-300' : 'text-indigo-900'}`}>Investment Likelihood Score</h3>
+              <p className={`mb-6 ${darkMode ? 'text-gray-300' : 'text-indigo-800'}`}>
+                Our advanced AI analyzes your startup's profile and provides a percentage likelihood of investment from each potential investor. This unique feature gives you invaluable insights to focus your efforts on the most promising opportunities.
+              </p>
+              <Button className={`${darkMode ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-indigo-600 hover:bg-indigo-700'} text-white`}>
+                Get Your Score
+              </Button>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-indigo-900 text-indigo-100 py-12">
+
+      <section id="pricing" className={`py-20 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
+        <div className="container mx-auto px-4">
+          <motion.h2
+            className={`text-3xl md:text-4xl font-bold mb-12 text-center ${darkMode ? 'text-indigo-300' : 'text-indigo-900'}`}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            Choose Your Launch Pad
+          </motion.h2>
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            variants={staggerChildren}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            {[
+              { name: "Startup Booster", price: "$99", features: ["AI-powered investor matching", "Basic analytics", "Email support"] },
+              { name: "Scale-up Accelerator", price: "$299", features: ["Advanced AI matching", "Detailed analytics & insights", "Priority support", "Investment likelihood scores"] },
+              { name: "Unicorn Launcher", price: "Custom", features: ["Full-suite AI tools", "Dedicated account manager", "Customized solutions", "Direct investor introductions"] }
+            ].map((plan, index) => (
+              <motion.div key={index} variants={fadeInUp}>
+                <Card className={`h-full border ${darkMode ? 'border-indigo-700 bg-gray-800' : 'border-indigo-200 bg-white'} shadow-lg flex flex-col justify-between transition-all duration-300 transform hover:scale-105 hover:shadow-2xl`}>
+                  <CardHeader>
+                    <CardTitle className={`text-2xl font-bold ${darkMode ? 'text-indigo-300' : 'text-indigo-900'}`}>{plan.name}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className={`text-4xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>{plan.price}<span className="text-sm font-normal">/month</span></p>
+                    <ul className="space-y-2">
+                      {plan.features.map((feature, i) => (
+                        <li key={i} className={`flex items-center ${darkMode ? 'text-gray-300' : 'text-indigo-800'}`}>
+                          <CheckCircle className="w-5 h-5 mr-2 text-green-500" />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                  <CardFooter>
+                    <Button className={`w-full ${darkMode ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-indigo-600 hover:bg-indigo-700'} text-white`}>
+                      Get Started
+                    </Button>
+                  </CardFooter>
+                </Card>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+
+      <section className={`py-20 ${darkMode ? 'bg-indigo-900' : 'bg-indigo-600'} relative overflow-hidden`}>
+        <motion.div
+          className="absolute inset-0 opacity-30"
+          animate={{
+            backgroundImage: [
+              'radial-gradient(circle, #4f46e5 0%, transparent 60%)',
+              'radial-gradient(circle, #818cf8 0%, transparent 60%)',
+              'radial-gradient(circle, #4f46e5 0%, transparent 60%)'
+            ]
+          }}
+          transition={{ duration: 10, repeat: Infinity, repeatType: "reverse" }}
+        />
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <motion.h2
+            className="text-3xl md:text-4xl font-bold mb-6 text-white"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            Ready to Skyrocket Your Startup?
+          </motion.h2>
+          <motion.p
+            className="text-xl mb-8 text-indigo-100"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            Join the exclusive waitlist and be the first to launch!
+          </motion.p>
+          <motion.div
+            className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            viewport={{ once: true }}
+          >
+            <Input type="email" placeholder="Enter your email" className="max-w-sm bg-white text-indigo-900 placeholder-indigo-400" />
+            <Button size="lg" className="bg-white hover:bg-indigo-100 text-indigo-900">
+              Join Waitlist <ChevronRight className="ml-2" />
+            </Button>
+          </motion.div>
+        </div>
+      </section>
+
+
+      <footer className={`${darkMode ? 'bg-gray-800 text-gray-300' : 'bg-indigo-900 text-indigo-100'} py-12`}>
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
@@ -442,15 +447,15 @@ export default function LandingPage() {
                 <ul className="space-y-2">
                   {column.links.map((link, linkIndex) => (
                     <li key={linkIndex}>
-                      <a href="#" className="text-indigo-300 hover:text-white transition-colors">{link}</a>
+                      <a href="#" className={`${darkMode ? 'text-gray-400 hover:text-white' : 'text-indigo-300 hover:text-white'} transition-colors`}>{link}</a>
                     </li>
                   ))}
                 </ul>
               </div>
             ))}
           </div>
-          <div className="mt-12 pt-8 border-t border-indigo-800 text-center text-indigo-400">
-            © {new Date().getFullYear()} AI Investor Matching. All rights reserved.
+          <div className={`mt-12 pt-8 border-t ${darkMode ? 'border-gray-700 text-gray-400' : 'border-indigo-800 text-indigo-400'} text-center`}>
+            © {new Date().getFullYear()} VentureMate. All rights reserved.
           </div>
         </div>
       </footer>
