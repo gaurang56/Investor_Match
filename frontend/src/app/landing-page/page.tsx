@@ -8,13 +8,21 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Moon, Sun, Rocket, Zap, Target, ChevronRight, Percent, CheckCircle, Menu } from 'lucide-react'
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import waitlist from '@zootools/waitlist-js'
 
 export default function EnhancedDynamicLandingPage() {
+
   const [darkMode, setDarkMode] = useState(false)
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   })
+  const clickPopup = (event) => {
+  event.preventDefault();
+
+
+  waitlist.openPopup("JLsjU7BVUrHo0csFWpTq")
+}
 
   const { scrollYProgress } = useScroll()
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2])
@@ -238,7 +246,7 @@ export default function EnhancedDynamicLandingPage() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.8, duration: 0.8 }}
     >
-      <Button size="lg" className={`mr-4 ${darkMode ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-indigo-600 hover:bg-indigo-700'} text-white`}>
+      <Button size="lg" className={`mr-4 ${darkMode ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-indigo-600 hover:bg-indigo-700'} text-white`} onClick={clickPopup}>
         Join the Waitlist
       </Button>
       <Button size="lg" variant="outline" className={`border-indigo-600 ${darkMode ? 'text-indigo-400 hover:bg-indigo-900' : 'text-indigo-600 hover:bg-indigo-50'}`}>
