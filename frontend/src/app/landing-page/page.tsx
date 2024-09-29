@@ -307,15 +307,15 @@ export default function EnhancedDynamicLandingPage() {
         </div>
       </motion.section>
 
-      {/* How It Works Section */}
-<section id="howItWorks" className="lg:px-40 py-20 bg-gradient-to-r from-indigo-50 to-blue-50">
-  <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-indigo-900">How It Works</h2>
+     {/* How It Works Section */}
+<section id="howItWorks" className={`py-20 ${darkMode ? 'bg-gray-900' : 'bg-gradient-to-r from-indigo-50 to-blue-50'}`}>
+  <h2 className={`text-3xl md:text-4xl font-bold mb-12 text-center ${darkMode ? 'text-indigo-300' : 'text-indigo-900'}`}>How It Works</h2>
   <div className="relative">
-    <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-indigo-200"></div>
+    <div className={`absolute left-1/2 transform -translate-x-1/2 h-full w-1 ${darkMode ? 'bg-indigo-700' : 'bg-indigo-200'}`}></div>
     {[
-      { step: 1, title: "Input your startup details", description: "Provide comprehensive information about your startup", icon: <Rocket className="hidden lg:block w-8 h-8 text-indigo-600" /> },
-      { step: 2, title: "Our AI analyzes and matches", description: "Advanced algorithms process your data to find ideal investors", icon: <Search className="hidden lg:block w-8 h-8 text-indigo-600" /> },
-      { step: 3, title: "Connect with top-matching investors", description: "Receive a curated list of investors tailored to your startup", icon: <Handshake className="hidden lg:block w-8 h-8 text-indigo-600" /> }
+      { step: 1, title: "Input your startup details", description: "Provide comprehensive information about your startup", icon: Rocket },
+      { step: 2, title: "Our AI analyzes and matches", description: "Advanced algorithms process your data to find ideal investors", icon: Search },
+      { step: 3, title: "Connect with top-matching investors", description: "Receive a curated list of investors tailored to your startup", icon: Handshake }
     ].map((item, index) => (
       <motion.div
         key={item.step}
@@ -326,14 +326,14 @@ export default function EnhancedDynamicLandingPage() {
         transition={{ duration: 0.5, delay: index * 0.2 }}
       >
         <div className="w-1/2 px-4 flex items-center">
-          {item.icon} {/* Display icon */}
+          <item.icon className={`hidden lg:block w-8 h-8 ${darkMode ? 'text-indigo-400' : 'text-indigo-600'}`} />
           <div className="ml-4">
-            <h3 className="text-2xl font-bold mb-2 text-indigo-900">{item.title}</h3>
-            <p className="text-indigo-600">{item.description}</p>
+            <h3 className={`text-2xl font-bold mb-2 ${darkMode ? 'text-indigo-300' : 'text-indigo-900'}`}>{item.title}</h3>
+            <p className={darkMode ? 'text-gray-300' : 'text-indigo-600'}>{item.description}</p>
           </div>
         </div>
         <motion.div
-          className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center z-10 text-white font-bold"
+          className={`w-10 h-10 ${darkMode ? 'bg-indigo-700' : 'bg-indigo-600'} rounded-full flex items-center justify-center z-10 text-white font-bold`}
           initial={{ rotate: 0 }}
           whileInView={{ rotate: 360 }}
           transition={{ duration: 1 }}
