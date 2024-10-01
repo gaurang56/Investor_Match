@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="9295032c-260c-4876-bd49-4cba98c0c1ec" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/landing-page/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/landing-page/page.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +32,7 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/gaurang56/Investor_Match.git&quot;,
+    &quot;url&quot;: &quot;git@github.com:gaurang56/Investor_Match.git&quot;,
     &quot;accountId&quot;: &quot;853e77fb-4731-4c50-9420-16f03483e669&quot;
   }
 }</component>
@@ -50,7 +50,7 @@
     &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
     &quot;Python.app.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;
+    &quot;git-widget-placeholder&quot;: &quot;landing-page&quot;
   }
 }</component>
   <component name="RecentsManager">
