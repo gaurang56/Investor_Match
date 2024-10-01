@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "@/components/header"
 import { Input } from "@/components/ui/input";
 import {
@@ -29,6 +29,7 @@ import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useInvestors } from "../InvestorsContext";
 interface SocialLinks {
   Twitter?: string;
   LinkedIn?: string;
@@ -49,8 +50,12 @@ interface Investor {
   "Match Reason": string;
 }
 
-export default function Home() {
-  const [result, setResult] = useState<any>([]);
+interface HomeProps {
+  investorsData: Investor[]// Optional prop can also be null
+}
+
+export default function Home(result:any) {
+  //const [result, setResult] = useState<any>([]);
   const [investorsData, setInvestorsData] = useState<Investor[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFocus, setSelectedFocus] = useState<string | null>(null);
@@ -63,6 +68,34 @@ export default function Home() {
     if (percentage >= 60) return "bg-amber-600 text-amber-50";
     return "bg-rose-600 text-rose-50";
   };
+
+  const { investors } = useInvestors();
+
+
+  useEffect(() => {
+    console.log(investors)
+    result = investors
+
+    // Check if result.result is an array
+    if (Array.isArray(investors)) {
+      setInvestorsData(investors); // Set the investors data
+    } else {
+      // If result.result is a string, attempt to parse it
+      try {
+        const parsedData = JSON.parse(result.result);
+        if (Array.isArray(parsedData)) {
+          setInvestorsData(parsedData);
+        } else {
+          console.error("Parsed result is not an array:", parsedData);
+        }
+      } catch (error) {
+        console.error("Error parsing result:", error);
+      }
+    }
+  }, [result, investors]);
+
+
+  
   const handleSubmit = async (e:any) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -84,7 +117,7 @@ export default function Home() {
       setInvestorsData(JSON.parse(cleanedResultString));
     } catch (error) {
       console.error('Error:', error);
-      setResult('An error occurred. Please try again.');
+      //setResult('An error occurred. Please try again.');
     }
   };
   const blurMatchReason = (reason: string) => {
@@ -94,13 +127,13 @@ export default function Home() {
   };
   const uniqueFocusAreas = Array.from(
     new Set(
-      investorsData.flatMap((investor) =>
+      investorsData.flatMap((investor:any) =>
         investor["Fund Focus Areas"].split(", ")
       )
     )
   );
   const filteredInvestors = investorsData.filter(
-    (investor) =>
+    (investor:any) =>
       investor["Investor Name"]
         .toLowerCase()
         .includes(searchTerm.toLowerCase()) &&
@@ -215,7 +248,7 @@ export default function Home() {
             >
               All
             </Button>
-            {uniqueFocusAreas.map((focus) => (
+            {uniqueFocusAreas.map((focus:any) => (
               <Button
                 key={focus}
                 variant="outline"
@@ -237,7 +270,7 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <AnimatePresence>
-            {filteredInvestors.map((investor, index) => (
+            {filteredInvestors.map((investor:any, index:any) => (
               <motion.div
                 key={investor["Investor Name"]}
                 initial={{ opacity: 0, y: 20 }}
@@ -300,7 +333,7 @@ export default function Home() {
                     <div className="flex flex-wrap gap-2 mb-4">
                       {investor["Fund Focus Areas"]
                         .split(", ")
-                        .map((area, idx) => (
+                        .map((area:any, idx:any) => (
                           <Badge
                             key={idx}
                             variant="secondary"
