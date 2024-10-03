@@ -20,7 +20,7 @@ export const InvestorsProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export const useInvestors = () => {
-  const context = useContext(InvestorsContext);
+  const context:any = useContext(InvestorsContext);
   if (!context) {
     throw new Error("useInvestors must be used within an InvestorsProvider");
   }

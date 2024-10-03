@@ -3,8 +3,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Providers } from "./providers"; // This is your existing provider
-import { InvestorsProvider } from "./InvestorsContext"; // Import your context provider
+import { Providers } from "./providers"; 
+import { InvestorsProvider } from "./InvestorsContext"; 
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Providers>
-        <InvestorsProvider> {/* Wrap with InvestorsProvider */}
+        <InvestorsProvider> 
           <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             suppressHydrationWarning

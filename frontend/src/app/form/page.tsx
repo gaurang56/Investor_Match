@@ -3,21 +3,8 @@
 import React from 'react';
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  FaChevronRight,
-  FaChevronLeft,
-  FaCheck,
-  FaRocket,
-  FaBriefcase,
-  FaFileAlt,
-  FaMapMarkerAlt,
-  FaSearch,
-  FaCoffee,
-  FaMagic,
-  FaUserTie,
-} from "react-icons/fa";
+import {FaChevronRight,FaChevronLeft,FaCheck,FaRocket,FaBriefcase,FaFileAlt,FaMapMarkerAlt,FaSearch,FaCoffee,FaMagic,FaUserTie,} from "react-icons/fa";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -26,8 +13,8 @@ import { Progress } from "@/components/ui/progress";
 import { SignInButton, SignOutButton, useSession } from "@clerk/nextjs";
 import { useMutation, useQuery } from "convex/react";
 import { api } from '../../../convex/generated/api';
-import Home from '../home/page';
 import { useInvestors } from '../InvestorsContext';
+import { RedirectToSignIn } from '@clerk/clerk-react';
 
 const steps = [
   { name: "Industry", icon: FaBriefcase },
@@ -164,10 +151,13 @@ export default function EnhancedOnboardingWidget() {
 
   const currentLoadingMessage = loadingMessages[loadingMessageIndex];
 
+  if (!isSignedIn) {
+    return <RedirectToSignIn />;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden">
-      {isSignedIn ? <SignOutButton /> : <SignInButton />}
-      <h1 className="text-2xl font-bold mb-4">Credits: Unlimited - perks of being a developer Whoo!</h1>
+      
       
       {isSignedIn && !isLoading && (
         <div className="w-full max-w-lg z-10">
@@ -327,7 +317,7 @@ export default function EnhancedOnboardingWidget() {
         </div>
       )}
       
-      {isLoading && (
+      {isLoading  && isSignedIn && (
         <div className="w-full max-w-lg z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
