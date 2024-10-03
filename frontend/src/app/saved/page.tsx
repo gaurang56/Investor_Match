@@ -2,15 +2,8 @@
 import { useState, useEffect } from "react";
 import Header from "@/components/header"
 import { Input } from "@/components/ui/input";
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-  } from "@/components/ui/select"
+import {useQuery } from "convex/react";
+import { api } from '../../../convex/generated/api';
 
   import {
     MapPinIcon,
@@ -56,7 +49,7 @@ interface HomeProps {
   investorsData: Investor[]// Optional prop can also be null
 }
 
-export default function Home(result:any) {
+export default function Home() {
   //const [result, setResult] = useState<any>([]);
   const { isSignedIn } = useSession();
   const [investorsData, setInvestorsData] = useState<Investor[]>([]);
@@ -72,63 +65,23 @@ export default function Home(result:any) {
     return "bg-rose-600 text-rose-50";
   };
 
-  const { investors } = useInvestors();
-
+  const  investors = useQuery(api.functions.getInvestors);
   
-
-  
-
 
   useEffect(() => {
     
-
-    
-    result = investors
-
-    // Check if result.result is an array
-    if (Array.isArray(investors)) {
-      setInvestorsData(investors); // Set the investors data
-    } else {
-      // If result.result is a string, attempt to parse it
-      try {
-        const parsedData = JSON.parse(result.result);
-        if (Array.isArray(parsedData)) {
-          setInvestorsData(parsedData);
-        } else {
-          console.error("Parsed result is not an array:", parsedData);
+    if (investors && investors.length != 0 ) {
+        for (let i = 0; i < investors.length; i++) {
+            investors[i].data = investors[i].data.replace(/```json\n|\n```/g, '')
+            setInvestorsData([...investorsData, ...JSON.parse(investors[i].data)])
         }
-      } catch (error) {
-        console.error("Error parsing result:", error);
-      }
+
+        
     }
-  }, [result, investors]);
+    }, [investors]);
 
 
   
-  const handleSubmit = async (e:any) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-
-    try {
-      const response = await fetch('http://127.0.0.1:5000/find_investors', {
-        method: 'POST',
-        body: formData
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const data = await response.json();
-        
-      let cleanedResultString = data.investors.replace(/```/g, '').replace(/json/g, '').trim();
-      console.log(cleanedResultString)
-      setInvestorsData(JSON.parse(cleanedResultString));
-    } catch (error) {
-      console.error('Error:', error);
-      //setResult('An error occurred. Please try again.');
-    }
-  };
   const blurMatchReason = (reason: string) => {
     return reason.replace(/\b\w+\b/g, (word) => {
       return word.length > 3 ? "●".repeat(word.length) : word;
@@ -137,6 +90,7 @@ export default function Home(result:any) {
   const uniqueFocusAreas = Array.from(
     new Set(
       investorsData.flatMap((investor:any) =>
+
         investor["Fund Focus Areas"].split(", ")
       )
     )
@@ -157,50 +111,6 @@ export default function Home(result:any) {
     <div>  
         <Header/>
         
-        <div className="bg-[#ECECEC] px-8 py-8">
-        <form className="flex gap-4" onSubmit={handleSubmit}>
-            <Input className="bg-white" id="description" name="description"  placeholder="Describe your startup" required/>
-            <Select  name="industry" required>
-            <SelectTrigger  id="industry" className="w-[180px] bg-white">
-                <SelectValue  placeholder="Select Your Industry" />
-            </SelectTrigger>
-            <SelectContent>
-                <SelectGroup>
-                <SelectLabel>Industry</SelectLabel>
-                <SelectItem value="AI/Machine Learning">AI/Machine Learning</SelectItem>
-                <SelectItem value="FinTech">FinTech</SelectItem>
-                <SelectItem value="HealthTech">HealthTech</SelectItem>
-                <SelectItem value="EdTech">EdTech</SelectItem>
-                <SelectItem value="E-commerce">E-commerce</SelectItem>
-                <SelectItem value="Other">Other</SelectItem>
-                </SelectGroup>
-            </SelectContent>
-            </Select>
-
-            <Select name="stage"required>
-            <SelectTrigger id="stage" className="w-[180px] bg-white">
-                <SelectValue  placeholder="Select Your Funding Stage" />
-            </SelectTrigger>
-            <SelectContent>
-                <SelectGroup>
-                <SelectLabel>Stage</SelectLabel>
-                <SelectItem value="Seed">Seed</SelectItem>
-                <SelectItem value="Series A">Series A</SelectItem>
-                <SelectItem value="Series B">Series B</SelectItem>
-                <SelectItem value="Series C">Series C</SelectItem>
-                <SelectItem value="Growth">Growth</SelectItem>
-                </SelectGroup>
-            </SelectContent>
-            </Select>
-
-            <Input className="bg-white" id = "location" name="location" required placeholder="Location"/>
-
-            <Button className="bg-indigo-900 hover:bg-indigo-800" type="submit">Find Matching Investors</Button>
-
-
-        </form>
-
-        </div>
 
         <div
       className={`min-h-screen ${
@@ -210,7 +120,7 @@ export default function Home(result:any) {
       <div className="p-4 sm:p-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold text-center">
-            Investor Dashboard
+            Previous Matches
           </h1>
           <Button
             variant="outline"
