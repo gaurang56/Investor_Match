@@ -72,7 +72,7 @@ export default function EnhancedDynamicLandingPage() {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
-            VentureMate
+            AloAngels
           </motion.p>
           <div className="space-x-4 hidden lg:flex items-center">
             {['Home', 'Features', 'Pricing', 'Waitlist'].map((item, index) => (
@@ -509,7 +509,7 @@ export default function EnhancedDynamicLandingPage() {
             ))}
           </div>
           <div className={`mt-12 pt-8 border-t ${darkMode ? 'border-gray-700 text-gray-400' : 'border-indigo-800 text-indigo-400'} text-center`}>
-            © {new Date().getFullYear()} VentureMate. All rights reserved.
+            © {new Date().getFullYear()} AloAngels. All rights reserved.
           </div>
         </div>
       </footer>
