@@ -74,11 +74,15 @@ export default function Home(result:any) {
 
   const { investors } = useInvestors();
 
+  
 
+  
 
 
   useEffect(() => {
-    console.log(investors)
+    
+
+    
     result = investors
 
     // Check if result.result is an array
@@ -144,6 +148,10 @@ export default function Home(result:any) {
         .includes(searchTerm.toLowerCase()) &&
       (!selectedFocus || investor["Fund Focus Areas"].includes(selectedFocus))
   );
+
+  if (!isSignedIn) {
+    return <RedirectToSignIn />;
+  }
 
   return (
     <div>  

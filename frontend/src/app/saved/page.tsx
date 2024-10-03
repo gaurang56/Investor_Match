@@ -66,8 +66,10 @@ export default function Home() {
   };
 
   const  investors = useQuery(api.functions.getInvestors);
+  
 
   useEffect(() => {
+    
     if (investors && investors.length != 0 ) {
         for (let i = 0; i < investors.length; i++) {
             investors[i].data = investors[i].data.replace(/```json\n|\n```/g, '')
@@ -100,6 +102,10 @@ export default function Home() {
         .includes(searchTerm.toLowerCase()) &&
       (!selectedFocus || investor["Fund Focus Areas"].includes(selectedFocus))
   );
+
+  if (!isSignedIn) {
+    return <RedirectToSignIn />;
+  }
 
   return (
     <div>  
