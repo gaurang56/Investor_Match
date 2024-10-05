@@ -237,7 +237,7 @@ export default function EnhancedDynamicLandingPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <div className={`max-w-3xl mx-auto ${darkMode ? 'bg-gray-800' : 'bg-gray-100'} rounded-3xl p-6 shadow-2xl`}> 
+        <div className={`max-w-2xl mx-auto ${darkMode ? 'bg-gray-800' : 'bg-gray-100'} rounded-3xl p-6 shadow-2xl`}> 
           <div className="relative aspect-w-16 aspect-h-9 rounded-2xl overflow-hidden shadow-lg">
             <video 
               id="demo-video"
