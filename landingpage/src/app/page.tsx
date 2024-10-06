@@ -415,8 +415,8 @@ export default function EnhancedDynamicLandingPage() {
             viewport={{ once: true }}
           >
             {[
-              { name: "Startup Booster", price: "$99", features: ["AI-powered investor matching", "Basic analytics", "Email support"] },
-              { name: "Scale-up Accelerator", price: "$299", features: ["Advanced AI matching", "Detailed analytics & insights", "Priority support", "Investment likelihood scores"] },
+              { name: "Startup Booster", price: "Free", features: ["AI-powered investor matching","Likelihood Scores", "Limited Credits","Basic analytics"] },
+              { name: "Scale-up Accelerator", price: "$29", features: ["Analytics dashboard","Access to all features", "10x amount matches", "Priority support"] },
               { name: "Unicorn Launcher", price: "Custom", features: ["Full-suite AI tools", "Dedicated account manager", "Customized solutions", "Direct investor introductions"] }
             ].map((plan, index) => (
               <motion.div key={index} variants={fadeInUp}>
