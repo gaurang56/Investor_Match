@@ -16,6 +16,17 @@ import { api } from '../../../convex/generated/api';
 import { useInvestors } from '../InvestorsContext';
 import { RedirectToSignIn } from '@clerk/clerk-react';
 
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+
 const steps = [
   { name: "Industry", icon: FaBriefcase },
   { name: "Stage", icon: FaRocket },
@@ -217,15 +228,25 @@ export default function EnhancedOnboardingWidget() {
                         <Label htmlFor="industry" className="text-gray-700">
                           What industry is your startup in?
                         </Label>
-                        <Input
-                          id="industry"
-                          name="industry"
-                          value={formData.industry}
-                          onChange={handleInputChange}
-                          required
-                          className="bg-white border-gray-300 text-gray-800 placeholder-gray-400"
-                          placeholder="e.g. Fintech, Healthcare"
-                        />
+                      
+
+<Select  name="industry" required>
+            <SelectTrigger  id="industry" className="bg-white border-gray-300 text-gray-800 placeholder-gray-400">
+                <SelectValue onChange={handleInputChange}  placeholder="Select Your Industry" />
+            </SelectTrigger>
+            <SelectContent>
+                <SelectGroup>
+                <SelectLabel>Industry</SelectLabel>
+                <SelectItem value="AI/Machine Learning">AI/Machine Learning</SelectItem>
+                <SelectItem value="FinTech">FinTech</SelectItem>
+                <SelectItem value="HealthTech">HealthTech</SelectItem>
+                <SelectItem value="EdTech">EdTech</SelectItem>
+                <SelectItem value="E-commerce">E-commerce</SelectItem>
+                <SelectItem value="Other">Other</SelectItem>
+                </SelectGroup>
+            </SelectContent>
+            </Select>
+
                       </div>
                     )}
                     {currentStep === 1 && (
@@ -233,15 +254,23 @@ export default function EnhancedOnboardingWidget() {
                         <Label htmlFor="stage" className="text-gray-700">
                           What stage is your startup at?
                         </Label>
-                        <Input
-                          id="stage"
-                          name="stage"
-                          value={formData.stage}
-                          onChange={handleInputChange}
-                          required
-                          className="bg-white border-gray-300 text-gray-800 placeholder-gray-400"
-                          placeholder="e.g. Seed, Series A"
-                        />
+                        
+
+<Select name="stage"required>
+            <SelectTrigger id="stage" className="bg-white border-gray-300 text-gray-800 placeholder-gray-400">
+                <SelectValue onChange={handleInputChange} placeholder="Select Your Funding Stage" />
+            </SelectTrigger>
+            <SelectContent>
+                <SelectGroup>
+                <SelectLabel>Stage</SelectLabel>
+                <SelectItem value="Seed">Seed</SelectItem>
+                <SelectItem value="Series A">Series A</SelectItem>
+                <SelectItem value="Series B">Series B</SelectItem>
+                <SelectItem value="Series C">Series C</SelectItem>
+                <SelectItem value="Growth">Growth</SelectItem>
+                </SelectGroup>
+            </SelectContent>
+            </Select>
                       </div>
                     )}
                     {currentStep === 2 && (

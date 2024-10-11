@@ -157,50 +157,7 @@ export default function Home(result:any) {
     <div>  
         <Header/>
         
-        <div className="bg-[#ECECEC] px-8 py-8">
-        <form className="flex gap-4" onSubmit={handleSubmit}>
-            <Input className="bg-white" id="description" name="description"  placeholder="Describe your startup" required/>
-            <Select  name="industry" required>
-            <SelectTrigger  id="industry" className="w-[180px] bg-white">
-                <SelectValue  placeholder="Select Your Industry" />
-            </SelectTrigger>
-            <SelectContent>
-                <SelectGroup>
-                <SelectLabel>Industry</SelectLabel>
-                <SelectItem value="AI/Machine Learning">AI/Machine Learning</SelectItem>
-                <SelectItem value="FinTech">FinTech</SelectItem>
-                <SelectItem value="HealthTech">HealthTech</SelectItem>
-                <SelectItem value="EdTech">EdTech</SelectItem>
-                <SelectItem value="E-commerce">E-commerce</SelectItem>
-                <SelectItem value="Other">Other</SelectItem>
-                </SelectGroup>
-            </SelectContent>
-            </Select>
-
-            <Select name="stage"required>
-            <SelectTrigger id="stage" className="w-[180px] bg-white">
-                <SelectValue  placeholder="Select Your Funding Stage" />
-            </SelectTrigger>
-            <SelectContent>
-                <SelectGroup>
-                <SelectLabel>Stage</SelectLabel>
-                <SelectItem value="Seed">Seed</SelectItem>
-                <SelectItem value="Series A">Series A</SelectItem>
-                <SelectItem value="Series B">Series B</SelectItem>
-                <SelectItem value="Series C">Series C</SelectItem>
-                <SelectItem value="Growth">Growth</SelectItem>
-                </SelectGroup>
-            </SelectContent>
-            </Select>
-
-            <Input className="bg-white" id = "location" name="location" required placeholder="Location"/>
-
-            <Button className="bg-indigo-900 hover:bg-indigo-800" type="submit">Find Matching Investors</Button>
-
-
-        </form>
-
-        </div>
+        
 
         <div
       className={`min-h-screen ${
