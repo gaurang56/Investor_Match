@@ -65,10 +65,11 @@ export default function Home() {
     return "bg-rose-600 text-rose-50";
   };
 
-  const  investors = useQuery(api.functions.getInvestors);
+  const investors = useQuery(api.functions.getInvestors);
   
 
   useEffect(() => {
+    console.log(investors)
     
     if (investors && investors.length != 0 ) {
         for (let i = 0; i < investors.length; i++) {
@@ -194,7 +195,7 @@ export default function Home() {
           <AnimatePresence>
             {filteredInvestors.map((investor:any, index:any) => (
               <motion.div
-                key={investor["Investor Name"]}
+                key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}

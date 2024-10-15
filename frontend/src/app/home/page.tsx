@@ -2,15 +2,8 @@
 import { useState, useEffect } from "react";
 import Header from "@/components/header"
 import { Input } from "@/components/ui/input";
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-  } from "@/components/ui/select"
+import {useQuery } from "convex/react";
+import { api } from '../../../convex/generated/api';
 
   import {
     MapPinIcon,
@@ -77,7 +70,7 @@ export default function Home(result:any) {
   
 
   
-
+  const  lastSearch = useQuery(api.functions.getInvestors);
 
   useEffect(() => {
     
@@ -85,20 +78,37 @@ export default function Home(result:any) {
     
     result = investors
 
-    // Check if result.result is an array
-    if (Array.isArray(investors)) {
-      setInvestorsData(investors); // Set the investors data
+    console.log(investors.length === 0 )
+    console.log(investors)
+
+    if (investors.length === 0 ) {
+      console.log("inside")
+      result = lastSearch
+      console.log(result)
+      if (lastSearch && lastSearch.length != 0 ) {
+        for (let i = 0; i < lastSearch.length; i++) {
+            lastSearch[i].data = lastSearch[i].data.replace(/```json\n|\n```/g, '')
+            setInvestorsData([...investorsData, ...JSON.parse(lastSearch[i].data)])
+        }  
+    }
     } else {
-      // If result.result is a string, attempt to parse it
-      try {
-        const parsedData = JSON.parse(result.result);
-        if (Array.isArray(parsedData)) {
-          setInvestorsData(parsedData);
-        } else {
-          console.error("Parsed result is not an array:", parsedData);
+      console.log(investors)
+
+      // Check if result.result is an array
+      if (Array.isArray(investors)) {
+        setInvestorsData(investors); // Set the investors data
+      } else {
+        // If result.result is a string, attempt to parse it
+        try {
+          const parsedData = JSON.parse(result.result);
+          if (Array.isArray(parsedData)) {
+            setInvestorsData(parsedData);
+          } else {
+            console.error("Parsed result is not an array:", parsedData);
+          }
+        } catch (error) {
+          console.error("Error parsing result:", error);
         }
-      } catch (error) {
-        console.error("Error parsing result:", error);
       }
     }
   }, [result, investors]);

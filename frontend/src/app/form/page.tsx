@@ -78,7 +78,8 @@ export default function EnhancedOnboardingWidget() {
     console.log(investors)
     if (!isLoading && investors) {
         console.log(investors)
-        setInvestors2(JSON.parse(investors));
+        let cleanedData = investors.replace(/`/g, '').replace(/\bjson\b/gi, '');
+        setInvestors2(JSON.parse(cleanedData));
         router.push("/home");
     }
   }, [isLoading, investors, router]);
