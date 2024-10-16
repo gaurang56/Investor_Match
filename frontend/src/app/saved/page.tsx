@@ -22,7 +22,6 @@ import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { useInvestors } from "../InvestorsContext";
 import { SignInButton, SignOutButton, useSession } from "@clerk/nextjs";
 import { RedirectToSignIn } from '@clerk/clerk-react';
 interface SocialLinks {
@@ -49,7 +48,7 @@ interface HomeProps {
   investorsData: Investor[]// Optional prop can also be null
 }
 
-export default function Home() {
+export default function Saved() {
   //const [result, setResult] = useState<any>([]);
   const { isSignedIn } = useSession();
   const [investorsData, setInvestorsData] = useState<Investor[]>([]);
@@ -68,19 +67,20 @@ export default function Home() {
   const investors = useQuery(api.functions.getInvestors);
   
 
-  useEffect(() => {
-    console.log(investors)
-    
-    if (investors && investors.length != 0 ) {
-        for (let i = 0; i < investors.length; i++) {
-            investors[i].data = investors[i].data.replace(/```json\n|\n```/g, '')
-            setInvestorsData([...investorsData, ...JSON.parse(investors[i].data)])
-        }
+useEffect(() => {
+  console.log(investors);
+  
+  if (investors && investors.length !== 0) {
+      let allInvestorsData:any = []; 
 
-        
-    }
-    }, [investors]);
-
+      for (let i = 0; i < investors.length; i++) {
+          investors[i].data = investors[i].data.replace(/```json\n|\n```/g, '');
+          allInvestorsData = [...allInvestorsData, ...JSON.parse(investors[i].data)];
+      }
+      setInvestorsData(allInvestorsData);
+  }
+}, [investors]);
+  
 
   
   const blurMatchReason = (reason: string) => {

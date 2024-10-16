@@ -91,14 +91,16 @@ export default function EnhancedOnboardingWidget() {
     }
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleInputChange = (name: string, value: string) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value, // Dynamically update the form field based on name
     });
   };
+  
+  
+
+  console.log(formData)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -231,9 +233,11 @@ export default function EnhancedOnboardingWidget() {
                         </Label>
                       
 
-<Select  name="industry" required>
+<Select  name="industry" required
+value={formData.industry} 
+onValueChange={(value) => handleInputChange("industry", value)}>
             <SelectTrigger  id="industry" className="bg-white border-gray-300 text-gray-800 placeholder-gray-400">
-                <SelectValue onChange={handleInputChange}  placeholder="Select Your Industry" />
+                <SelectValue  placeholder="Select Your Industry" />
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
@@ -257,9 +261,12 @@ export default function EnhancedOnboardingWidget() {
                         </Label>
                         
 
-<Select name="stage"required>
+<Select name="stage"
+required
+value={formData.stage} 
+onValueChange={(value) => handleInputChange("stage", value)}>
             <SelectTrigger id="stage" className="bg-white border-gray-300 text-gray-800 placeholder-gray-400">
-                <SelectValue onChange={handleInputChange} placeholder="Select Your Funding Stage" />
+                <SelectValue placeholder="Select Your Funding Stage" />
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
@@ -283,7 +290,7 @@ export default function EnhancedOnboardingWidget() {
                           id="description"
                           name="description"
                           value={formData.description}
-                          onChange={handleInputChange}
+                          onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                           required
                           className="bg-white border-gray-300 text-gray-800 placeholder-gray-400 min-h-[100px]"
                           placeholder="What problem does your startup solve?"
@@ -299,7 +306,7 @@ export default function EnhancedOnboardingWidget() {
                           id="location"
                           name="location"
                           value={formData.location}
-                          onChange={handleInputChange}
+                          onChange={(e) => handleInputChange(e.target.name, e.target.value)}
                           required
                           className="bg-white border-gray-300 text-gray-800 placeholder-gray-400"
                           placeholder="e.g. San Francisco, CA"

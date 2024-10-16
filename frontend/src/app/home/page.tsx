@@ -70,26 +70,27 @@ export default function Home(result:any) {
   
 
   
-  const  lastSearch = useQuery(api.functions.getInvestors);
+  const lastSearch = useQuery(api.functions.getInvestors);
 
   useEffect(() => {
-    
-
-    
     result = investors
+
+    console.log(lastSearch)
 
     console.log(investors.length === 0 )
     console.log(investors)
 
     if (investors.length === 0 ) {
+      console.log(lastSearch)
       console.log("inside")
-      result = lastSearch
+      
       console.log(result)
       if (lastSearch && lastSearch.length != 0 ) {
-        for (let i = 0; i < lastSearch.length; i++) {
-            lastSearch[i].data = lastSearch[i].data.replace(/```json\n|\n```/g, '')
-            setInvestorsData([...investorsData, ...JSON.parse(lastSearch[i].data)])
-        }  
+        result = lastSearch[lastSearch.length -1 ]
+        lastSearch[lastSearch.length -1 ].data = lastSearch[lastSearch.length -1 ].data.replace(/```json\n|\n```/g, ''); 
+        const parsedData = JSON.parse(lastSearch[lastSearch.length -1 ].data);
+
+        setInvestorsData(parsedData); 
     }
     } else {
       console.log(investors)
@@ -111,7 +112,7 @@ export default function Home(result:any) {
         }
       }
     }
-  }, [result, investors]);
+  }, [result, investors, lastSearch]);
 
 
   
