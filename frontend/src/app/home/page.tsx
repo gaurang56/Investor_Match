@@ -55,8 +55,8 @@ export default function Home(result:any) {
   const [investorsData, setInvestorsData] = useState<Investor[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFocus, setSelectedFocus] = useState<string | null>(null);
-  const shouldBlur = (likelihood: string) => parseInt(likelihood) > 75;
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const shouldBlur = (likelihood: string) => parseInt(likelihood) > 95;
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const getLikelihoodColor = (likelihood: string) => {
     const percentage = parseInt(likelihood);
     if (percentage >= 80) return "bg-emerald-600 text-emerald-50";
@@ -165,6 +165,7 @@ export default function Home(result:any) {
   }
 
   return (
+
     <div>  
         <Header/>
         
@@ -173,8 +174,7 @@ export default function Home(result:any) {
         <div
       className={`min-h-screen ${
         isDarkMode ? "bg-gray-900 text-gray-100" : "bg-gray-100 text-gray-900"
-      } transition-colors duration-300`}
-    >
+      } transition-colors duration-300`}>
       <div className="p-4 sm:p-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold text-center">
@@ -444,6 +444,6 @@ export default function Home(result:any) {
 
       
       
-    </div>
+
   );
 }

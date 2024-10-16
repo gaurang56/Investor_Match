@@ -4,7 +4,23 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from "framer-motion";
-import {FaChevronRight,FaChevronLeft,FaCheck,FaRocket,FaBriefcase,FaFileAlt,FaMapMarkerAlt,FaSearch,FaCoffee,FaMagic,FaUserTie,} from "react-icons/fa";
+
+import {
+  FaChevronRight,
+  FaChevronLeft,
+  FaCheck,
+  FaRocket,
+  FaBriefcase,
+  FaFileAlt,
+  FaMapMarkerAlt,
+  FaSearch,
+  FaCoffee,
+  FaMagic,
+  FaUserTie,
+  FaSignOutAlt,
+  FaCreditCard,
+} from "react-icons/fa";
+
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -84,7 +100,6 @@ export default function EnhancedOnboardingWidget() {
     }
   }, [isLoading, investors, router]);
 
-
   const handlePrevious = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
@@ -126,7 +141,7 @@ export default function EnhancedOnboardingWidget() {
       if (!response.ok) {
         throw new Error('Failed to fetch investors');
       }
-      
+
       const data = await response.json();
       setInvestors(data.investors);
 
@@ -170,9 +185,37 @@ export default function EnhancedOnboardingWidget() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden">
-      
-      
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden">
+      {/* Background design elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <svg className="absolute left-[10%] top-[20%] w-72 h-72 text-gray-200 opacity-30 animate-float" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path fill="currentColor" d="M44.7,-76.4C58.8,-69.2,71.8,-59.1,79.6,-45.8C87.4,-32.6,90,-16.3,89.1,-0.5C88.1,15.3,83.5,30.6,75.2,43.9C66.9,57.3,54.8,68.6,40.7,76.6C26.6,84.5,10.3,89.1,-4.4,85.9C-19.1,82.7,-32.1,71.8,-45.7,62.4C-59.3,53,-73.4,45.1,-79.1,33C-84.8,20.9,-82,4.6,-76.2,-9.2C-70.4,-23,-61.6,-34.4,-51.1,-43.9C-40.6,-53.3,-28.5,-60.9,-15.3,-70.3C-2.1,-79.7,11.1,-91,25.5,-89.9C39.9,-88.8,55.5,-75.4,44.7,-76.4Z" transform="translate(100 100)" />
+        </svg>
+        <svg className="absolute right-[10%] bottom-[20%] w-64 h-64 text-gray-200 opacity-30 animate-float-reverse" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path fill="currentColor" d="M39.9,-65.7C54.1,-60.5,69.3,-54,79.1,-42.4C88.9,-30.8,93.3,-14.4,91.4,0.8C89.4,16,81.1,31.9,71.5,46.7C61.9,61.5,51,75.1,37.2,80.5C23.4,85.9,6.7,83.1,-8.9,79.1C-24.5,75.1,-39,69.9,-51.6,61.6C-64.2,53.3,-75,41.9,-79.8,28.3C-84.6,14.7,-83.4,-1.1,-78.9,-15.3C-74.4,-29.5,-66.5,-42.1,-55.3,-48.9C-44.1,-55.7,-29.6,-56.7,-17.1,-63.9C-4.6,-71.1,6,-84.5,17.7,-85.8C29.5,-87.1,42.3,-76.3,39.9,-65.7Z" transform="translate(100 100)" />
+        </svg>
+      </div>
+
+      <div className="absolute top-4 right-4 z-20">
+        {isSignedIn ? (
+          <SignOutButton>
+            <Button variant="outline" className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+              <FaSignOutAlt className="mr-2" />
+              Sign Out
+            </Button>
+          </SignOutButton>
+        ) : (
+          <SignInButton />
+        )}
+      </div>
+      <div className="absolute top-4 left-4 z-20">
+        <div className="bg-white bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-lg shadow-md p-3 flex items-center space-x-2">
+          <FaCreditCard className="text-blue-500" />
+          <span className="font-bold text-gray-800">Credits: 5</span>
+        </div>
+      </div>
+
+
       {isSignedIn && !isLoading && (
         <div className="w-full max-w-lg z-10">
           <motion.div
@@ -375,8 +418,8 @@ onValueChange={(value) => handleInputChange("stage", value)}>
             </div>
             <p className="text-gray-600 text-center mb-6 text-lg font-medium">{currentLoadingMessage.text}</p>
             <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-              <div 
-                className="bg-blue-600 h-2.5 rounded-full transition-all duration-500 ease-out" 
+              <div
+                className="bg-blue-600 h-2.5 rounded-full transition-all duration-500 ease-out"
                 style={{width: `${loadingProgress}%`}}
               ></div>
             </div>
@@ -384,30 +427,6 @@ onValueChange={(value) => handleInputChange("stage", value)}>
           </motion.div>
         </div>
       )}
-      
-      {!isLoading && (
-        <div></div>
-
-        /*<div className="w-full max-w-lg mt-8">
-          {investors && (
-            <div className="p-6 bg-white rounded-lg shadow mb-4">
-              <h3 className="text-xl font-semibold mb-4">Suggested Investors:</h3>
-              <p className="text-gray-700">{investors}</p>
-            </div>
-          )}
-          
-          {investorList && investorList.length > 0 && (
-            <div className="p-6 bg-white rounded-lg shadow">
-              <h3 className="text-xl font-semibold mb-4">Previously Suggested Investors:</h3>
-              {investorList.map((detail:any, index:any) => (
-                <div key={index} className="mb-2 p-3 bg-gray-50 rounded">
-                <p className="text-gray-700">{detail.data}</p>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>*/
-    )}
-  </div>
-);
+    </div>
+  );
 }
