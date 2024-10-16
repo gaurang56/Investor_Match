@@ -80,6 +80,7 @@ def find_investors():
     """
 
     json_structure = """
+    [
     {
       "Investor Name": "string",
       "Fund Focus Areas": "string",
@@ -97,6 +98,7 @@ def find_investors():
       "Likelihood to Invest": "number %",
       "Match Reason": "string"
     }
+    ]
     """
 
     prompt = f"""
@@ -130,7 +132,7 @@ def find_investors():
     4. **Portfolio companies fit**: If available, assess whether the startup aligns with the types of companies already in the investor’s portfolio (similar markets, technologies, or sectors).
     5. **Investment thesis alignment**: Look at the fund description to ensure that the investor’s philosophy or thesis aligns with the startup’s vision or mission, and explain why this investor would be a strategic match.
 
-    Based on this data, provide a list of **5-10 investors** who would be the best match for this startup. Return the result in the following JSON format for each investor:
+    Based on this data, provide a list of a minimum of **10-15 investors** who would be the best match for this startup. Return the result in the following JSON format for each investor:
 
     {json_structure}
 
@@ -138,7 +140,7 @@ def find_investors():
 
 
 
-    Please provide the results directly in JSON format without any additional explanations starting and ending with square brackets.
+    Please provide the results directly in JSON format without any additional explanations and make sure to start and end with square brackets.
     """
 
     docs = VectorStore.similarity_search(query=prompt, k=3)
