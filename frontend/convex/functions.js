@@ -47,19 +47,19 @@ export const storeInvestorData = mutation({
     },
   });
 
-export const getInvestors = query({
+  export const getInvestors = query({
     
-        args: {},
-        handler: async (ctx, args) => {
-          const user = await ctx.auth.getUserIdentity();
-      
-          if (!user){
-             return [];
-          }
-      
-          return await ctx.db.query('investors').filter(q=>
-            q.eq(q.field('userId'), user.subject)
-          ).collect()
-        },
-      
+    args: {},
+    handler: async (ctx, args) => {
+      const user = await ctx.auth.getUserIdentity();
+  
+      if (!user){
+         return [];
+      }
+  
+      return await ctx.db.query('investors').filter(q=>
+        q.eq(q.field('userId'), user.subject)
+      ).collect()
+    },
+  
 })

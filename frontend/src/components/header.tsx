@@ -10,8 +10,9 @@ export default function Header() {
             <div className='flex gap-4'>
                 <p className="font-bold"> VentureMate</p>
                 <div className="flex gap-4">
-                    <a href="/form">Home</a>
-                    <a href="/saved">Saved</a>
+                    <a href="/home">Current Matches</a>
+                    <a href="/saved">Previous Matches</a>
+                    <a href="/form">New Search</a>
                 </div>
 
             </div>
