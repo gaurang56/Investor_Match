@@ -441,6 +441,8 @@ export default function Home(result:any) {
       </div>
     </div>
 
+    </div>
+
 
       
       
