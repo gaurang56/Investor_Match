@@ -398,6 +398,7 @@ export default function EnhancedDynamicLandingPage() {
             viewport={{ once: true }}
           >
             Choose Your Launch Pad
+            
           </motion.h2>
           <motion.div
             className="grid grid-cols-1 md:grid-cols-3 gap-8"

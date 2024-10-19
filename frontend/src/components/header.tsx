@@ -5,19 +5,21 @@ import { SignInButton, SignOutButton, useSession } from "@clerk/nextjs";
 import { useAction, useMutation, useQuery } from 'convex/react';
 import { api } from '../../convex/generated/api';
 import { useRouter } from 'next/navigation';
+import { userIsSubscribed } from '@/hooks/userIsSubscribed';
+import { UpgradeButton } from './upgrade-button';
 
 export default function Header() {
 
   const pay = useAction(api.stripe.pay)
   const router = useRouter();
-  const user = useQuery(api.users.getUser)
+  const isSubscribed = userIsSubscribed();
 
-  async function handleUpgradeClick() {
+    async function handleUpgradeClick() {
     const url = await pay();
     router.push(url)
   }
 
-  const isSubscribed = user && (user.endsOn ?? 0) > Date.now()
+  
 
     return (
         <div className="px-8 py-4 border border-b-[1px] flex gap-4 justify-between items-center">
@@ -30,7 +32,7 @@ export default function Header() {
                     <a href="/form">New Search</a>
                 </div>
                 {
-                  !isSubscribed && (<Button onClick={handleUpgradeClick}>Upgrade</Button>)
+                  !isSubscribed && <UpgradeButton />
                 }
                 
 

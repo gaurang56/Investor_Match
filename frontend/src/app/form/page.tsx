@@ -64,6 +64,7 @@ const loadingMessages = [
 ];
 
 export default function EnhancedOnboardingWidget() {
+  const userCredits = useQuery(api.functions.getUserCredits);
   const { isSignedIn } = useSession();
   const createFormInput = useMutation(api.functions.createFormData);
   const storeInvestorData = useMutation(api.functions.storeInvestorData);
@@ -123,6 +124,12 @@ export default function EnhancedOnboardingWidget() {
       handleNext();
       return;
     }
+
+    if (userCredits !== undefined && userCredits <= 0) {
+      alert("You have no credits left. Please upgrade to continue using the service.");
+      return;
+    }
+
     setIsLoading(true);
     setInvestors(null);
     setLoadingProgress(0);
@@ -211,7 +218,7 @@ export default function EnhancedOnboardingWidget() {
       <div className="absolute top-4 left-4 z-20">
         <div className="bg-white bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-lg shadow-md p-3 flex items-center space-x-2">
           <FaCreditCard className="text-blue-500" />
-          <span className="font-bold text-gray-800">Credits: 5</span>
+          <span className="font-bold text-gray-800">Credits: {userCredits !== undefined ? userCredits : 'Loading...'}</span>
         </div>
       </div>
 

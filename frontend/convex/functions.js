@@ -1,5 +1,9 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { getFullUser } from "./users";
+import { api } from "./_generated/api";
+import { useQuery } from "convex/react";
+
 
 
 export const createFormData = mutation({
@@ -11,10 +15,36 @@ export const createFormData = mutation({
   },
   handler: async (ctx, args) => {
     const user = await ctx.auth.getUserIdentity();
-
-    if (!user){
-        throw new Error("you must be logged in to get suggested investors!")
+    
+    if (!user) {
+      throw new Error("Not authenticated");
     }
+    
+    const userRecord = await ctx.db
+    .query("users")
+    .withIndex("by_userId", (q) => q.eq("userId", user.subject))
+    .first();
+
+    if (!userRecord){
+      throw new Error("no user with that id found")
+  }
+
+    const isSubscribed = userRecord.endsOn ? userRecord.endsOn > Date.now() : false;
+      
+    if (!isSubscribed && userRecord.credits <=0){
+      throw new Error("Please upgrade to continue using")
+    }
+
+    if (!isSubscribed) {
+      await ctx.db.patch(userRecord._id, {
+        credits: Math.max(0, userRecord.credits - 1),
+      });
+    }
+  
+    
+  
+
+    
 
     await ctx.db.insert("formvalues", {
       industry: args.industry,
@@ -63,3 +93,25 @@ export const storeInvestorData = mutation({
     },
   
 })
+
+export const getUserCredits = query({
+  args: {},
+  handler: async (ctx) => {
+    const user = await ctx.auth.getUserIdentity();
+    
+    if (!user) {
+      return 0;
+    }
+    
+    const userRecord = await ctx.db
+      .query("users")
+      .withIndex("by_userId", (q) => q.eq("userId", user.subject))
+      .first();
+
+    if (!userRecord) {
+      return 0;
+    }
+
+    return userRecord.credits;
+  },
+});

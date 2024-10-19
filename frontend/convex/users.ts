@@ -1,14 +1,15 @@
 import {v} from "convex/values"
 import { internalMutation,query } from "./_generated/server";
+import { MutationCtx, QueryCtx } from "./_generated/server";
 
-
+const FREE_CREDITS = 5
 export const getUser = query({
     args: {},
     handler: async (ctx, args) => {
       const user = await ctx.auth.getUserIdentity();
   
       if (!user) {
-        return undefined;
+        return undefined
       }
   
       return ctx.db.query("users").withIndex("by_userId", (q)=>q.eq("userId", user.subject)).first();
@@ -20,8 +21,8 @@ export const createUser = internalMutation({
     handler: async(ctx, args) => {
         await ctx.db.insert("users", {
             email: args.email,
-            userId: args.userId
-
+            userId: args.userId,
+            credits: FREE_CREDITS
         })
     }
 })
@@ -65,4 +66,9 @@ export const updateSubscriptionBySubId = internalMutation({
     },
   });
   
-  
+export function getFullUser(ctx: QueryCtx | MutationCtx, userId: string){
+    return ctx.db
+    .query("users")
+    .withIndex("by_userId", (q) => q.eq("userId", userId))
+    .first();
+} 
