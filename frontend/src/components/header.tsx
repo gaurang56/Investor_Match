@@ -7,6 +7,7 @@ import { api } from '../../convex/generated/api';
 import { useRouter } from 'next/navigation';
 import { userIsSubscribed } from '@/hooks/userIsSubscribed';
 import { UpgradeButton } from './upgrade-button';
+import { SubscriptionButton } from './subscribebtn';
 
 
 export default function Header() {
@@ -33,7 +34,7 @@ export default function Header() {
                     <a href="/form">New Search</a>
                 </div>
                 {
-                  !isSubscribed && <UpgradeButton />
+                  <SubscriptionButton />
                 }
                 
 

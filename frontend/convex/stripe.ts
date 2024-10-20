@@ -5,9 +5,19 @@ import Stripe from "stripe";
 
 import { action, internalAction } from "./_generated/server";
 import { internal } from "./_generated/api";
+import { Id } from "./_generated/dataModel";
 
 type Metadata = {
   userId: string;
+};
+
+type UserType = {
+  _id: Id<"users">;
+  userId: string;
+  email: string;
+  subscriptionId?: string;
+  endsOn?: number;
+  credits?: number;
 };
 
 export const pay = action({
@@ -42,7 +52,45 @@ export const pay = action({
   },
 });
 
+export const cancelSubscription = action({
+  args: {},
+  handler: async (ctx) => {
+    const user = await ctx.auth.getUserIdentity();
 
+    if (!user) {
+      throw new Error("you must be logged in to cancel subscription");
+    }
+
+    const dbUser = await ctx.runQuery(internal.users.getUserInternal, {});
+
+    if (!dbUser?.subscriptionId) {
+      throw new Error("no active subscription found");
+    }
+
+    const stripe = new Stripe(process.env.STRIPE_KEY!, {
+      apiVersion: "2024-09-30.acacia",
+    });
+
+    try {
+      const subscription = await stripe.subscriptions.update(
+        dbUser.subscriptionId,
+        {
+          cancel_at_period_end: true,
+        }
+      );
+
+      return {
+        success: true,
+        message: `Subscription will be canceled on ${new Date(
+          subscription.current_period_end * 1000
+        ).toLocaleDateString()}`,
+      };
+    } catch (error) {
+      console.error("Error canceling subscription:", error);
+      throw new Error("Failed to cancel subscription");
+    }
+  },
+});
 
 export const fulfill = internalAction({
   args: { signature: v.string(), payload: v.string() },
@@ -76,7 +124,6 @@ export const fulfill = internalAction({
           endsOn: subscription.current_period_end * 1000,
         });
 
-        // Increase user credits by 10
         await ctx.runMutation(internal.users.increaseCredits, {
           userId,
           amount: 10,
@@ -93,12 +140,24 @@ export const fulfill = internalAction({
           endsOn: subscription.current_period_end * 1000,
         });
 
-        // Increase user credits by 10 for recurring payments
-        const userId = completedEvent.customer as string; // Assuming customer ID is the user ID
+        const userId = completedEvent.customer as string;
         await ctx.runMutation(internal.users.increaseCredits, {
           userId,
           amount: 10,
         });
+      }
+
+      if (event.type === "customer.subscription.deleted") {
+        const subscription = event.data.object as Stripe.Subscription;
+        const user = await ctx.runQuery(internal.users.getUserBySubscriptionId, {
+          subscriptionId: subscription.id,
+        });
+        
+        if (user) {
+          await ctx.runMutation(internal.users.removeSubscription, {
+            userId: user.userId,
+          });
+        }
       }
 
       return { success: true };
