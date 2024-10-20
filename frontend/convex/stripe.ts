@@ -42,6 +42,8 @@ export const pay = action({
   },
 });
 
+
+
 export const fulfill = internalAction({
   args: { signature: v.string(), payload: v.string() },
   handler: async (ctx, args) => {
@@ -68,16 +70,17 @@ export const fulfill = internalAction({
 
         const userId = completedEvent.metadata.userId;
 
-        /* await ctx.runMutation(internal.users.setStripeId, {
-          userId,
-          stripeId: completedEvent.id,
-        }); */
-
         await ctx.runMutation(internal.users.updateSubscription, {
           userId,
           subscriptionId: subscription.id,
           endsOn: subscription.current_period_end * 1000,
-        }); 
+        });
+
+        // Increase user credits by 10
+        await ctx.runMutation(internal.users.increaseCredits, {
+          userId,
+          amount: 10,
+        });
       }
 
       if (event.type === "invoice.payment_succeeded") {
@@ -88,6 +91,13 @@ export const fulfill = internalAction({
         await ctx.runMutation(internal.users.updateSubscriptionBySubId, {
           subscriptionId: subscription.items.data[0]?.price.id,
           endsOn: subscription.current_period_end * 1000,
+        });
+
+        // Increase user credits by 10 for recurring payments
+        const userId = completedEvent.customer as string; // Assuming customer ID is the user ID
+        await ctx.runMutation(internal.users.increaseCredits, {
+          userId,
+          amount: 10,
         });
       }
 

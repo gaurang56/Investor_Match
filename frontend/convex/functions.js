@@ -3,6 +3,7 @@ import { mutation, query } from "./_generated/server";
 import { getFullUser } from "./users";
 import { api } from "./_generated/api";
 import { useQuery } from "convex/react";
+import Stripe from "stripe";
 
 
 
@@ -56,6 +57,8 @@ export const createFormData = mutation({
     });
   },
 });
+
+
 export const storeInvestorData = mutation({
     args: {
       investors: v.string(),
@@ -115,3 +118,4 @@ export const getUserCredits = query({
     return userRecord.credits;
   },
 });
+

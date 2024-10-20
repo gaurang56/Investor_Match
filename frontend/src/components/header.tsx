@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { userIsSubscribed } from '@/hooks/userIsSubscribed';
 import { UpgradeButton } from './upgrade-button';
 
+
 export default function Header() {
 
   const pay = useAction(api.stripe.pay)
