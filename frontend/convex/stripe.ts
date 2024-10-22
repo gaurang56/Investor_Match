@@ -52,7 +52,7 @@ export const pay = action({
   },
 });
 
-export const cancelSubscription = action({
+export const cancelSubscription:any = action({
   args: {},
   handler: async (ctx) => {
     const user = await ctx.auth.getUserIdentity();

@@ -4,6 +4,7 @@ import Header from "@/components/header"
 import { Input } from "@/components/ui/input";
 import {useQuery } from "convex/react";
 import { api } from '../../../convex/generated/api';
+import { useDarkMode } from "../DarkModeContext";
 
   import {
     MapPinIcon,
@@ -55,7 +56,6 @@ export default function Saved() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFocus, setSelectedFocus] = useState<string | null>(null);
   const shouldBlur = (likelihood: string) => parseInt(likelihood) > 75;
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const getLikelihoodColor = (likelihood: string) => {
     const percentage = parseInt(likelihood);
     if (percentage >= 80) return "bg-emerald-600 text-emerald-50";
@@ -63,6 +63,7 @@ export default function Saved() {
     if (percentage >= 60) return "bg-amber-600 text-amber-50";
     return "bg-rose-600 text-rose-50";
   };
+  const { isDarkMode, setIsDarkMode } = useDarkMode(); 
 
   const investors = useQuery(api.functions.getInvestors);
   
@@ -110,7 +111,7 @@ useEffect(() => {
 
   return (
     <div>  
-        <Header/>
+      <Header/>
         
 
         <div
@@ -123,22 +124,7 @@ useEffect(() => {
           <h1 className="text-3xl sm:text-4xl font-bold text-center">
             Previous Matches
           </h1>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => setIsDarkMode(!isDarkMode)}
-            className={`rounded-full ${
-              isDarkMode
-                ? "bg-gray-800 text-yellow-400 hover:bg-gray-700"
-                : "bg-white text-gray-900 hover:bg-gray-100"
-            }`}
-          >
-            {isDarkMode ? (
-              <SunIcon className="h-5 w-5" />
-            ) : (
-              <MoonIcon className="h-5 w-5" />
-            )}
-          </Button>
+          
         </div>
 
         <div className="mb-6 flex flex-col sm:flex-row justify-between items-center gap-4">

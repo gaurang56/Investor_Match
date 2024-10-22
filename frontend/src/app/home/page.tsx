@@ -4,27 +4,15 @@ import Header from "@/components/header"
 import { Input } from "@/components/ui/input";
 import {useQuery } from "convex/react";
 import { api } from '../../../convex/generated/api';
-
-  import {
-    MapPinIcon,
-    GlobeIcon,
-    MailIcon,
-    TwitterIcon,
-    LinkedinIcon,
-    FacebookIcon,
-    SearchIcon,
-    LockIcon,
-    SunIcon,
-    MoonIcon,
-  } from "lucide-react";
+import {MapPinIcon,GlobeIcon,MailIcon,TwitterIcon,LinkedinIcon,FacebookIcon,SearchIcon,LockIcon,SunIcon,MoonIcon,} from "lucide-react";
 import { Button } from "@/components/ui/button";
-
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useInvestors } from "../InvestorsContext";
-import { SignInButton, SignOutButton, useSession } from "@clerk/nextjs";
+import {useSession } from "@clerk/nextjs";
 import { RedirectToSignIn } from '@clerk/clerk-react';
+import { useDarkMode } from "../DarkModeContext";
 interface SocialLinks {
   Twitter?: string;
   LinkedIn?: string;
@@ -46,17 +34,19 @@ interface Investor {
 }
 
 interface HomeProps {
-  investorsData: Investor[]// Optional prop can also be null
+  isDarkMode: boolean;
+  setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
+  result: any; // Adjust this based on what `result` actually contains
 }
 
 export default function Home(result:any) {
-  //const [result, setResult] = useState<any>([]);
   const { isSignedIn } = useSession();
   const [investorsData, setInvestorsData] = useState<Investor[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFocus, setSelectedFocus] = useState<string | null>(null);
   const shouldBlur = (likelihood: string) => parseInt(likelihood) > 95;
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const { isDarkMode, setIsDarkMode } = useDarkMode(); 
+
   const getLikelihoodColor = (likelihood: string) => {
     const percentage = parseInt(likelihood);
     if (percentage >= 80) return "bg-emerald-600 text-emerald-50";
@@ -66,6 +56,8 @@ export default function Home(result:any) {
   };
 
   const { investors } = useInvestors();
+
+  console.log(setIsDarkMode)
 
   
 
@@ -114,32 +106,11 @@ export default function Home(result:any) {
     }
   }, [result, investors, lastSearch]);
 
+  console.log("is this dark mode", isDarkMode)
+
 
   
-  const handleSubmit = async (e:any) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-
-    try {
-      const response = await fetch('http://127.0.0.1:5000/find_investors', {
-        method: 'POST',
-        body: formData
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const data = await response.json();
-        
-      let cleanedResultString = data.investors.replace(/```/g, '').replace(/json/g, '').trim();
-      console.log(cleanedResultString)
-      setInvestorsData(JSON.parse(cleanedResultString));
-    } catch (error) {
-      console.error('Error:', error);
-      //setResult('An error occurred. Please try again.');
-    }
-  };
+  
   const blurMatchReason = (reason: string) => {
     return reason.replace(/\b\w+\b/g, (word) => {
       return word.length > 3 ? "●".repeat(word.length) : word;
@@ -167,7 +138,8 @@ export default function Home(result:any) {
   return (
 
     <div>  
-        <Header/>
+      <Header/>
+       
         
         
 
@@ -180,22 +152,7 @@ export default function Home(result:any) {
           <h1 className="text-3xl sm:text-4xl font-bold text-center">
             Investor Dashboard
           </h1>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => setIsDarkMode(!isDarkMode)}
-            className={`rounded-full ${
-              isDarkMode
-                ? "bg-gray-800 text-yellow-400 hover:bg-gray-700"
-                : "bg-white text-gray-900 hover:bg-gray-100"
-            }`}
-          >
-            {isDarkMode ? (
-              <SunIcon className="h-5 w-5" />
-            ) : (
-              <MoonIcon className="h-5 w-5" />
-            )}
-          </Button>
+          
         </div>
 
         <div className="mb-6 flex flex-col sm:flex-row justify-between items-center gap-4">
