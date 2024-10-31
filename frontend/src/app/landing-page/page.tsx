@@ -75,19 +75,27 @@ export default function EnhancedDynamicLandingPage() {
             VentureMate
           </motion.p>
           <div className="space-x-4 hidden lg:flex items-center">
-            {['Home', 'Features', 'Pricing', 'Waitlist'].map((item, index) => (
+            {['Home', 'Features', 'Pricing', 'Get Started'].map((item, index) => (
               <motion.a
                 key={item}
-                href={`#${item.toLowerCase()}`}
-                className={`relative inline-block group ${darkMode ? 'hover:text-indigo-400' : 'hover:text-indigo-600'}`}
+                href={item === 'Get Started' ?  '/form': `#${item.toLowerCase()}`}
+                className={`relative inline-block group ${
+                  item === 'Get Started'
+                    ? 'bg-indigo-500 text-white px-4 py-2 rounded-md'
+                    : darkMode
+                    ? 'hover:text-indigo-400'
+                    : 'hover:text-indigo-600'
+                }`}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: item === 'Get Started' ? 0 : index * 0.1 }}
               >
                 {item}
+                {item !== 'Get Started' && (
                 <span className={`absolute left-0 bottom-0 h-[2px] w-full ${darkMode ? 'bg-indigo-400' : 'bg-indigo-600'} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300`}></span>
+                )}
               </motion.a>
             ))}
             <motion.div
