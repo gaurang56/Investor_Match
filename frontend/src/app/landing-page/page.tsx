@@ -78,7 +78,7 @@ export default function EnhancedDynamicLandingPage() {
             {['Home', 'Features', 'Pricing', 'Get Started'].map((item, index) => (
               <motion.a
                 key={item}
-                href={item === 'Get Started' ?  '/form': `#${item.toLowerCase()}`}
+                href={item === 'Get Started' ?  '/home': `#${item.toLowerCase()}`}
                 className={`relative inline-block group ${
                   item === 'Get Started'
                     ? 'bg-indigo-500 text-white px-4 py-2 rounded-md'
@@ -256,9 +256,9 @@ export default function EnhancedDynamicLandingPage() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.8, duration: 0.8 }}
     >
-      <a href="#waitlist">
+      <a href="/home">
       <Button  size="lg" className={`mr-4 ${darkMode ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-indigo-600 hover:bg-indigo-700'} text-white`}>
-        Join the Waitlist
+        Get Started
       </Button>
 
       </a>
@@ -437,9 +437,13 @@ export default function EnhancedDynamicLandingPage() {
                     </ul>
                   </CardContent>
                   <CardFooter>
-                    <Button className={`w-full ${darkMode ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-indigo-600 hover:bg-indigo-700'} text-white`}>
-                      Get Started
-                    </Button>
+                    <a href="/home">
+                      <Button className={`w-full ${darkMode ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-indigo-600 hover:bg-indigo-700'} text-white`}>
+                        Get Started
+                      </Button>
+
+                    </a>
+                    
                   </CardFooter>
                 </Card>
               </motion.div>
@@ -478,7 +482,7 @@ export default function EnhancedDynamicLandingPage() {
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            Join the exclusive waitlist and be the first to launch!
+            
           </motion.p>
           <motion.div
             className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4"
@@ -487,10 +491,14 @@ export default function EnhancedDynamicLandingPage() {
             transition={{ duration: 0.6, delay: 0.4 }}
             viewport={{ once: true }}
           >
+            <a href="/form">
+              <Button size="lg" className="bg-white hover:bg-indigo-100 text-indigo-900" >
+                Get Started
+              </Button>
 
-            <Button size="lg" className="bg-white hover:bg-indigo-100 text-indigo-900" onClick={clickPopup}>
-              Join Waitlist <ChevronRight className="ml-2" />
-            </Button>
+            </a>
+
+            
           </motion.div>
         </div>
       </section>

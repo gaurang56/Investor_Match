@@ -13,6 +13,8 @@ import { useInvestors } from "../InvestorsContext";
 import {useSession } from "@clerk/nextjs";
 import { RedirectToSignIn } from '@clerk/clerk-react';
 import { useDarkMode } from "../DarkModeContext";
+import { useRouter } from 'next/navigation';
+
 interface SocialLinks {
   Twitter?: string;
   LinkedIn?: string;
@@ -46,6 +48,8 @@ export default function Home(result:any) {
   const [selectedFocus, setSelectedFocus] = useState<string | null>(null);
   const shouldBlur = (likelihood: string) => parseInt(likelihood) > 95;
   const { isDarkMode, setIsDarkMode } = useDarkMode(); 
+  const router = useRouter();
+
 
   const getLikelihoodColor = (likelihood: string) => {
     const percentage = parseInt(likelihood);
@@ -57,26 +61,36 @@ export default function Home(result:any) {
 
   const { investors } = useInvestors();
 
-  console.log(setIsDarkMode)
+
+
 
   
 
   
   const lastSearch = useQuery(api.functions.getInvestors);
 
+
+  useEffect(() => {
+
+    const timeoutId = setTimeout(() => {
+      if (lastSearch && lastSearch.length === 0) {
+        router.push('/form');
+        
+      } else {
+        console.log("Last search data:", lastSearch);
+      }
+    }, 1000); 
+
+    return () => clearTimeout(timeoutId);
+
+  }, [lastSearch])
+
+
   useEffect(() => {
     result = investors
 
-    console.log(lastSearch)
-
-    console.log(investors.length === 0 )
-    console.log(investors)
-
     if (investors.length === 0 ) {
-      console.log(lastSearch)
-      console.log("inside")
-      
-      console.log(result)
+
       if (lastSearch && lastSearch.length != 0 ) {
         result = lastSearch[lastSearch.length -1 ]
         lastSearch[lastSearch.length -1 ].data = lastSearch[lastSearch.length -1 ].data.replace(/```json\n|\n```/g, ''); 
@@ -85,7 +99,6 @@ export default function Home(result:any) {
         setInvestorsData(parsedData); 
     }
     } else {
-      console.log(investors)
 
       // Check if result.result is an array
       if (Array.isArray(investors)) {
@@ -106,7 +119,6 @@ export default function Home(result:any) {
     }
   }, [result, investors, lastSearch]);
 
-  console.log("is this dark mode", isDarkMode)
 
 
   
