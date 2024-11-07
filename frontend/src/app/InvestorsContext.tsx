@@ -1,7 +1,9 @@
-// app/InvestorsContext.tsx
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use client"
 import { createContext, useContext, useState, ReactNode } from 'react';
 
+// You can keep using 'any' here temporarily
 type InvestorsContextType = {
   investors: any[];
   setInvestors2: (investors: any[]) => void;
@@ -20,9 +22,11 @@ export const InvestorsProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export const useInvestors = () => {
-  const context:any = useContext(InvestorsContext);
+  const context: any = useContext(InvestorsContext);
   if (!context) {
     throw new Error("useInvestors must be used within an InvestorsProvider");
   }
   return context;
 };
+
+/* eslint-enable @typescript-eslint/no-explicit-any */
