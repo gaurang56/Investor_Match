@@ -78,7 +78,7 @@ export default function EnhancedDynamicLandingPage() {
             {['Home', 'Features', 'Pricing', 'Get Started'].map((item, index) => (
               <motion.a
                 key={item}
-                href={item === 'Get Started' ?  '/home': `#${item.toLowerCase()}`}
+                href={item === 'Get Started' ?  '/form': `#${item.toLowerCase()}`}
                 className={`relative inline-block group ${
                   item === 'Get Started'
                     ? 'bg-indigo-500 text-white px-4 py-2 rounded-md'
@@ -256,7 +256,7 @@ export default function EnhancedDynamicLandingPage() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.8, duration: 0.8 }}
     >
-      <a href="/home">
+      <a href="/form">
       <Button  size="lg" className={`mr-4 ${darkMode ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-indigo-600 hover:bg-indigo-700'} text-white`}>
         Get Started
       </Button>
@@ -437,7 +437,7 @@ export default function EnhancedDynamicLandingPage() {
                     </ul>
                   </CardContent>
                   <CardFooter>
-                    <a href="/home">
+                    <a href="/form">
                       <Button className={`w-full ${darkMode ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-indigo-600 hover:bg-indigo-700'} text-white`}>
                         Get Started
                       </Button>
