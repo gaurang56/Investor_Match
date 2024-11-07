@@ -140,7 +140,7 @@ export default function EnhancedOnboardingWidget() {
         formDataToSend.append(key, value);
       });
 
-      const response = await fetch('https://ripe-tania-aloangels-0652a7cd.koyeb.app', {
+      const response = await fetch('https://ripe-tania-aloangels-0652a7cd.koyeb.app/find_investors', {
         method: 'POST',
         body: formDataToSend,
       });
