@@ -4,6 +4,7 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from "framer-motion";
+import { Home } from 'lucide-react';
 
 import {
   FaChevronRight,
@@ -83,6 +84,8 @@ export default function EnhancedOnboardingWidget() {
   const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
   const [loadingProgress, setLoadingProgress] = useState(0);
 
+  const lastSearch = useQuery(api.functions.getInvestors);
+
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
@@ -114,9 +117,6 @@ export default function EnhancedOnboardingWidget() {
     });
   };
   
-  
-
-  console.log(formData)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -203,7 +203,18 @@ export default function EnhancedOnboardingWidget() {
         </svg>
       </div>
 
-      <div className="absolute top-4 right-4 z-20">
+      <div className="absolute top-4 right-4 z-20 flex gap-4 ">
+        {lastSearch.length != 0  && (
+        <a href="/home">
+          
+        <Button variant="outline" className='bg-white  hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow'>
+          <Home/>
+          Dashboard
+        </Button>
+
+        </a>
+)}
+        
         {isSignedIn ? (
           <SignOutButton>
             <Button variant="outline" className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
