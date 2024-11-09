@@ -63,7 +63,7 @@ const shouldBlur = (likelihood: string) => isSubscribed === undefined ? true : (
     if (percentage >= 80) return "bg-emerald-600 text-emerald-50";
     if (percentage >= 70) return "bg-teal-600 text-teal-50";
     if (percentage >= 60) return "bg-amber-600 text-amber-50";
-    return "bg-rose-600 text-rose-50";
+    return "bg-blue-600 text-blue-50";
   };
   const { isDarkMode, setIsDarkMode } = useDarkMode(); 
 
