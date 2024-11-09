@@ -150,122 +150,136 @@ export default function EnhancedDynamicLandingPage() {
       </motion.div>
 
 
-<section className="relative overflow-hidden pt-32 pb-16 px-4">
-  <motion.div className="absolute inset-0 z-0">
+      <section className="relative overflow-hidden pt-32 pb-16 px-4">
+        <motion.div className="absolute inset-0 z-0">
+          <motion.div
+            className="absolute top-[10vh] left-[10vw] w-[20vw] h-[20vw] bg-indigo-300 rounded-full mix-blend-multiply filter blur-xl opacity-70"
+            animate={{
+              scale: [1, 1.2, 1],
+              x: [-20, 20, -20],
+              y: [10, -20, 10],
+              rotate: [0, 90, 0],
+            }}
+            transition={{
+              duration: 12,
+              repeat: Infinity,
+              repeatType: "mirror",
+            }}
+          />
+          <motion.div
+            className="absolute top-[25vh] right-[10vw] w-[25vw] h-[25vw] bg-indigo-400 rounded-full mix-blend-multiply filter blur-xl opacity-60"
+            animate={{
+              scale: [1, 1.3, 1],
+              x: [20, -20, 20],
+              y: [-10, 20, -10],
+              rotate: [0, -90, 0],
+            }}
+            transition={{
+              duration: 14,
+              repeat: Infinity,
+              repeatType: "mirror",
+            }}
+          />
+          <motion.div
+            className="absolute bottom-[15vh] left-[30vw] w-[30vw] h-[30vw] bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-70"
+            animate={{
+              scale: [1, 1.1, 1],
+              x: [-30, 30, -30],
+              y: [20, -30, 20],
+              rotate: [0, 60, 0],
+            }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              repeatType: "mirror",
+            }}
+          />
+          <motion.div
+            className="absolute top-[40vh] right-[25vw] w-[15vw] h-[15vw] bg-indigo-600 rounded-full mix-blend-multiply filter blur-xl opacity-50"
+            animate={{
+              scale: [1, 1.4, 1],
+              x: [-20, 30, -10],
+              y: [-30, 30, -10],
+              rotate: [0, 120, 0],
+            }}
+            transition={{
+              duration: 11,
+              repeat: Infinity,
+              repeatType: "mirror",
+            }}
+          />
+          <motion.div
+            className="absolute bottom-[5vh] right-[10vw] w-[12vw] h-[12vw] bg-indigo-700 rounded-full mix-blend-multiply filter blur-xl opacity-60"
+            animate={{
+              scale: [1, 1.3, 1],
+              x: [15, -15, 15],
+              y: [-20, 20, -10],
+              rotate: [0, -45, 0],
+            }}
+            transition={{
+              duration: 9,
+              repeat: Infinity,
+              repeatType: "mirror",
+            }}
+          />
+        </motion.div>
 
-    <motion.div
-      className="absolute top-[10vh] left-[10vw] w-[20vw] h-[20vw] bg-indigo-300 rounded-full mix-blend-multiply filter blur-xl opacity-70"
-      animate={{
-        scale: [1, 1.2, 1],
-        x: [-20, 20, -20],
-        y: [10, -20, 10],
-        rotate: [0, 90, 0],
-      }}
-      transition={{
-        duration: 12,
-        repeat: Infinity,
-        repeatType: "mirror",
-      }}
-    />
+        <div className="container mx-auto text-center relative z-10">
+          <motion.h1
+            className="text-4xl md:text-6xl font-bold mb-6"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            Revolutionize Your Startup Journey
+          </motion.h1>
+          <motion.p
+            className="text-xl md:text-2xl mb-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+          >
+            AI-Powered Matchmaking for Startups and Investors
+          </motion.p>
+          <motion.div 
+        className="container mx-auto px-4 py-8" 
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className={`max-w-2xl mx-auto ${darkMode ? 'bg-gray-800' : 'bg-gray-100'} rounded-3xl p-6 shadow-2xl`}> 
+          <div className="relative aspect-w-16 aspect-h-9 rounded-2xl overflow-hidden shadow-lg">
+            <video 
+              id="demo-video"
+              className="w-full h-full object-cover"
+              autoPlay
+              loop
+              muted
+              playsInline
+            >
+              <source src="/final.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+      </motion.div>
 
-
-    <motion.div
-      className="absolute top-[25vh] right-[10vw] w-[25vw] h-[25vw] bg-indigo-400 rounded-full mix-blend-multiply filter blur-xl opacity-60"
-      animate={{
-        scale: [1, 1.3, 1],
-        x: [20, -20, 20],
-        y: [-10, 20, -10],
-        rotate: [0, -90, 0],
-      }}
-      transition={{
-        duration: 14,
-        repeat: Infinity,
-        repeatType: "mirror",
-      }}
-    />
-
-
-    <motion.div
-      className="absolute bottom-[15vh] left-[30vw] w-[30vw] h-[30vw] bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-70"
-      animate={{
-        scale: [1, 1.1, 1],
-        x: [-30, 30, -30],
-        y: [20, -30, 20],
-        rotate: [0, 60, 0],
-      }}
-      transition={{
-        duration: 10,
-        repeat: Infinity,
-        repeatType: "mirror",
-      }}
-    />
-
-
-    <motion.div
-      className="absolute top-[40vh] right-[25vw] w-[15vw] h-[15vw] bg-indigo-600 rounded-full mix-blend-multiply filter blur-xl opacity-50"
-      animate={{
-        scale: [1, 1.4, 1],
-        x: [-20, 30, -10],
-        y: [-30, 30, -10],
-        rotate: [0, 120, 0],
-      }}
-      transition={{
-        duration: 11,
-        repeat: Infinity,
-        repeatType: "mirror",
-      }}
-    />
-
-
-    <motion.div
-      className="absolute bottom-[5vh] right-[10vw] w-[12vw] h-[12vw] bg-indigo-700 rounded-full mix-blend-multiply filter blur-xl opacity-60"
-      animate={{
-        scale: [1, 1.3, 1],
-        x: [15, -15, 15],
-        y: [-20, 20, -10],
-        rotate: [0, -45, 0],
-      }}
-      transition={{
-        duration: 9,
-        repeat: Infinity,
-        repeatType: "mirror",
-      }}
-    />
-  </motion.div>
-
-
-  <div  className="container mx-auto text-center relative z-10">
-    <motion.h1
-      className="text-4xl md:text-6xl font-bold mb-6"
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
-    >
-      Revolutionize Your Startup Journey
-    </motion.h1>
-    <motion.p
-      className="text-xl md:text-2xl mb-8"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 0.4, duration: 0.8 }}
-    >
-      AI-Powered Matchmaking for Startups and Investors
-    </motion.p>
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.8, duration: 0.8 }}
-    >
-      <a href="/form">
-      <Button  size="lg" className={`mr-4 ${darkMode ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-indigo-600 hover:bg-indigo-700'} text-white`}>
-        Get Started - It's Free
-      </Button>
-
-      </a>
-      
-    </motion.div>
-  </div>
-</section>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.8 }}
+          >
+            <a onClick={clickPopup}>
+              <Button size="lg" className={`mr-4 ${darkMode ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-indigo-600 hover:bg-indigo-700'} text-white`}>
+                Join the Waitlist
+              </Button>
+            </a>
+            <Button size="lg" variant="outline" className={`border-indigo-600 ${darkMode ? 'text-indigo-400 hover:bg-indigo-900' : 'text-indigo-600 hover:bg-indigo-50'}`}>
+              Learn More
+            </Button>
+          </motion.div>
+        </div>
+      </section>
 
 
 

@@ -38,7 +38,7 @@ export const createFormData = mutation({
 
     if (!isSubscribed) {
       await ctx.db.patch(userRecord._id, {
-        credits: Math.max(0, userRecord.credits - 2),
+        credits: Math.max(0, userRecord.credits - 3),
       });
     }
   
