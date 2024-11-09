@@ -6,6 +6,9 @@ import "./globals.css";
 import { Providers } from "./providers"; 
 import { InvestorsProvider } from "./InvestorsContext"; 
 import { DarkModeProvider } from "./DarkModeContext";
+import Head from 'next/head';
+import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -18,11 +21,6 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-/* export const metadata: Metadata = {
-  title: "AloAngels: Free AI Powered Investor Matching",
-  description: "Find investors willing to fund your idea or business with AlgoAngels, an AI Powered Investor Matching tool ",
-}; */
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -30,15 +28,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Head>
+        <title>AloAngels: Free AI Powered Investor Matching</title>
+        <meta 
+          name="description" 
+          content="Find investors willing to fund your idea or business with AlgoAngels, an AI Powered Investor Matching tool"
+        />
+      </Head>
       <Providers>
         <InvestorsProvider> 
           <DarkModeProvider>
-          <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-            suppressHydrationWarning
-          >
-            {children}
-          </body>
+            <body
+              className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+              suppressHydrationWarning
+            >
+              <Analytics />
+              <SpeedInsights />
+              {children}
+            </body>
           </DarkModeProvider>
         </InvestorsProvider>
       </Providers>
