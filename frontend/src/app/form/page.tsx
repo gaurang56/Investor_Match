@@ -84,7 +84,7 @@ export default function EnhancedOnboardingWidget() {
   const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
   const [loadingProgress, setLoadingProgress] = useState(0);
 
-  const lastSearch = useQuery(api.functions.getInvestors);
+  const lastSearch = useQuery(api.functions.getInvestors) || [] ;
 
   const handleNext = () => {
     if (currentStep < steps.length - 1) {

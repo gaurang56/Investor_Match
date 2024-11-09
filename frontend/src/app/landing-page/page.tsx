@@ -258,14 +258,11 @@ export default function EnhancedDynamicLandingPage() {
     >
       <a href="/form">
       <Button  size="lg" className={`mr-4 ${darkMode ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-indigo-600 hover:bg-indigo-700'} text-white`}>
-        Get Started
+        Get Started - It's Free
       </Button>
 
       </a>
       
-      <Button size="lg" variant="outline" className={`border-indigo-600 ${darkMode ? 'text-indigo-400 hover:bg-indigo-900' : 'text-indigo-600 hover:bg-indigo-50'}`}>
-        Learn More
-      </Button>
     </motion.div>
   </div>
 </section>
@@ -406,7 +403,6 @@ export default function EnhancedDynamicLandingPage() {
             viewport={{ once: true }}
           >
             Choose Your Launch Pad
-            
           </motion.h2>
           <motion.div
             className="grid grid-cols-1 md:grid-cols-3 gap-8"
@@ -416,8 +412,8 @@ export default function EnhancedDynamicLandingPage() {
             viewport={{ once: true }}
           >
             {[
-              { name: "Startup Booster", price: "$99", features: ["AI-powered investor matching", "Basic analytics", "Email support"] },
-              { name: "Scale-up Accelerator", price: "$299", features: ["Advanced AI matching", "Detailed analytics & insights", "Priority support", "Investment likelihood scores"] },
+              { name: "Startup Booster", price: "Free", features: ["AI-powered investor matching","Likelihood Scores", "Limited Credits","Basic analytics"] },
+              { name: "Scale-up Accelerator", price: "$29", features: ["Analytics dashboard","Access to all features", "10x amount matches", "Priority support"] },
               { name: "Unicorn Launcher", price: "Custom", features: ["Full-suite AI tools", "Dedicated account manager", "Customized solutions", "Direct investor introductions"] }
             ].map((plan, index) => (
               <motion.div key={index} variants={fadeInUp}>
@@ -437,13 +433,9 @@ export default function EnhancedDynamicLandingPage() {
                     </ul>
                   </CardContent>
                   <CardFooter>
-                    <a href="/form">
-                      <Button className={`w-full ${darkMode ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-indigo-600 hover:bg-indigo-700'} text-white`}>
-                        Get Started
-                      </Button>
-
-                    </a>
-                    
+                    <Button className={`w-full ${darkMode ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-indigo-600 hover:bg-indigo-700'} text-white`}>
+                      Get Started
+                    </Button>
                   </CardFooter>
                 </Card>
               </motion.div>

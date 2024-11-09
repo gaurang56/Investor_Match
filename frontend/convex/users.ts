@@ -3,7 +3,7 @@ import { v } from "convex/values";
 import { internalMutation, internalQuery, query } from "./_generated/server";
 import { MutationCtx, QueryCtx } from "./_generated/server";
 
-const FREE_CREDITS = 5;
+const FREE_CREDITS = 6;
 
 // Public query for client use
 export const getUser = query({
