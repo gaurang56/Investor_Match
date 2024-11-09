@@ -14,14 +14,7 @@ export function SubscriptionButton() {
   const user = useQuery(api.users.getUser);
   const startSubscription = useAction(api.stripe.pay);
   const cancelSubscription = useAction(api.stripe.cancelSubscription);
-  const handleSimulateCancel = async () => {
-    try {
-      const result = await cancelSubscription();
-      console.log(result); // Check the output in the console
-    } catch (err) {
-      console.error('Cancellation simulation failed:', err);
-    }
-  };
+  
   
 
   
@@ -62,7 +55,7 @@ export function SubscriptionButton() {
 
   return (
     <div className="space-y-4">
-        <Button onClick={handleSimulateCancel}>Simulate Cancel Subscription</Button>
+        
       {error && (
         <Alert variant="destructive">
           <AlertDescription>{error}</AlertDescription>
