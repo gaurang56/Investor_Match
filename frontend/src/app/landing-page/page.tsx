@@ -130,16 +130,28 @@ export default function EnhancedDynamicLandingPage() {
               <SheetContent className={darkMode ? 'bg-gray-800 text-white' : 'bg-white'}>
                 <SheetClose asChild>
                   <div className='flex flex-col gap-4 mt-8'>
-                    {['Home', 'Features', 'Pricing','Waitlist'].map((item) => (
+                    {['Home', 'Features', 'Pricing','Get Started'].map((item, index) => (
                       <motion.a
-                        key={item}
-                        href={`#${item.toLowerCase()}`}
-                        className={`text-lg ${darkMode ? 'hover:text-indigo-400' : 'hover:text-indigo-600'}`}
-                        whileHover={{ scale: 1.1, x: 10 }}
-                        whileTap={{ scale: 0.9 }}
-                      >
-                        {item}
-                      </motion.a>
+                      key={item}
+                      href={item === 'Get Started' ?  '/form': `#${item.toLowerCase()}`}
+                      className={`relative inline-block group ${
+                        item === 'Get Started'
+                          ? 'bg-indigo-500 text-white px-4 py-2 rounded-md'
+                          : darkMode
+                          ? 'hover:text-indigo-400'
+                          : 'hover:text-indigo-600'
+                      }`}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: item === 'Get Started' ? 0 : index * 0.1 }}
+                    >
+                      {item}
+                      {item !== 'Get Started' && (
+                      <span className={`absolute left-0 bottom-0 h-[2px] w-full ${darkMode ? 'bg-indigo-400' : 'bg-indigo-600'} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300`}></span>
+                      )}
+                    </motion.a>
                     ))}
                   </div>
                 </SheetClose>
@@ -269,14 +281,12 @@ export default function EnhancedDynamicLandingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.8 }}
           >
-            <a onClick={clickPopup}>
+            <a href="/home">
               <Button size="lg" className={`mr-4 ${darkMode ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-indigo-600 hover:bg-indigo-700'} text-white`}>
-                Join the Waitlist
+                Get Started Now - It's Free
               </Button>
             </a>
-            <Button size="lg" variant="outline" className={`border-indigo-600 ${darkMode ? 'text-indigo-400 hover:bg-indigo-900' : 'text-indigo-600 hover:bg-indigo-50'}`}>
-              Learn More
-            </Button>
+            
           </motion.div>
         </div>
       </section>
