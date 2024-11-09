@@ -67,7 +67,7 @@ export default function Header() {
             className="text-sm sm:text-base"
           >
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Subscribe
+            Upgrade
           </Button>
         )}
 
