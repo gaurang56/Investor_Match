@@ -14,6 +14,8 @@ import {useSession } from "@clerk/nextjs";
 import { RedirectToSignIn } from '@clerk/clerk-react';
 import { useDarkMode } from "../DarkModeContext";
 import { useRouter } from 'next/navigation';
+import { userIsSubscribed } from "@/hooks/userIsSubscribed"; 
+
 
 interface SocialLinks {
   Twitter?: string;
@@ -46,7 +48,8 @@ export default function Home(result:any) {
   const [investorsData, setInvestorsData] = useState<Investor[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFocus, setSelectedFocus] = useState<string | null>(null);
-  const shouldBlur = (likelihood: string) => parseInt(likelihood) > 95;
+  const isSubscribed = userIsSubscribed();
+  const shouldBlur = (likelihood: string) => isSubscribed === undefined ? true : (isSubscribed ? parseInt(likelihood) > 99 : parseInt(likelihood) > 74);
   const { isDarkMode, setIsDarkMode } = useDarkMode(); 
   const router = useRouter();
 
@@ -56,7 +59,7 @@ export default function Home(result:any) {
     if (percentage >= 80) return "bg-emerald-600 text-emerald-50";
     if (percentage >= 70) return "bg-teal-600 text-teal-50";
     if (percentage >= 60) return "bg-amber-600 text-amber-50";
-    return "bg-rose-600 text-rose-50";
+    return "bg-blue-600 text-blue-50";
   };
 
   const { investors } = useInvestors();

@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import {useQuery } from "convex/react";
 import { api } from '../../../convex/generated/api';
 import { useDarkMode } from "../DarkModeContext";
+import { userIsSubscribed } from "@/hooks/userIsSubscribed";
 
   import {
     MapPinIcon,
@@ -55,7 +56,8 @@ export default function Saved() {
   const [investorsData, setInvestorsData] = useState<Investor[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFocus, setSelectedFocus] = useState<string | null>(null);
-  const shouldBlur = (likelihood: string) => parseInt(likelihood) > 75;
+  const isSubscribed = userIsSubscribed();
+const shouldBlur = (likelihood: string) => isSubscribed === undefined ? true : (isSubscribed ? parseInt(likelihood) > 99 : parseInt(likelihood) > 74);
   const getLikelihoodColor = (likelihood: string) => {
     const percentage = parseInt(likelihood);
     if (percentage >= 80) return "bg-emerald-600 text-emerald-50";
