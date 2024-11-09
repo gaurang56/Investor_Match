@@ -206,21 +206,25 @@ export default function EnhancedOnboardingWidget() {
       <div className="absolute top-4 right-4 z-20 flex gap-4 ">
         {lastSearch.length != 0  && (
         <a href="/home">
+
+          <div className="bg-white bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-lg shadow-md p-3 flex items-center space-x-2">
+            <Home/>
+
+            <span className="font-bold text-gray-800 hidden lg:block">Dashboard</span>
+          </div>
           
-        <Button variant="outline" className='bg-white  hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow'>
-          <Home/>
-          Dashboard
-        </Button>
+  
 
         </a>
 )}
         
         {isSignedIn ? (
           <SignOutButton>
-            <Button variant="outline" className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
-              <FaSignOutAlt className="mr-2" />
-              Sign Out
-            </Button>
+            <div  className="bg-white bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-lg shadow-md p-3 flex items-center space-x-2">
+              <FaSignOutAlt className="mr-2 text-black" />
+              <p className='font-bold text-gray-800 hidden lg:block'>Sign Out</p>
+
+            </div>
           </SignOutButton>
         ) : (
           <SignInButton />
