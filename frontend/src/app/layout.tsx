@@ -42,6 +42,7 @@ export default function RootLayout({
               className={`${geistSans.variable} ${geistMono.variable} antialiased`}
               suppressHydrationWarning
             >
+              <script defer data-website-id="674397c4f42ded59778e77a6" data-domain="aloangels.me" src="https://datafa.st/js/script.js"></script>
               <Analytics />
               <SpeedInsights />
               {children}
