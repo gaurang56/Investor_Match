@@ -312,19 +312,24 @@ export default function Home(result:any) {
                       </span>
                     </div>
                     <div className="space-y-2">
-                      {investor["Contact Details"].Website && (
-                        <a
-                          href={investor["Contact Details"].Website}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={`flex items-center ${
-                            isDarkMode ? "text-blue-400" : "text-blue-600"
-                          } hover:underline text-sm`}
-                        >
-                          <GlobeIcon className="w-4 h-4 mr-2" />
-                          Website
-                        </a>
-                      )}
+                    {investor["Contact Details"].Website && (
+  <a
+    href={
+      investor["Contact Details"].Website.startsWith("http://") ||
+      investor["Contact Details"].Website.startsWith("https://")
+        ? investor["Contact Details"].Website
+        : `https://${investor["Contact Details"].Website}`
+    }
+    target="_blank"
+    rel="noopener noreferrer"
+    className={`flex items-center ${
+      isDarkMode ? "text-blue-400" : "text-blue-600"
+    } hover:underline text-sm`}
+  >
+    <GlobeIcon className="w-4 h-4 mr-2" />
+    Website
+  </a>
+)}
                       {investor["Contact Details"].Email !== "nan" && (
                         <a
                           href={`mailto:${investor["Contact Details"].Email}`}
