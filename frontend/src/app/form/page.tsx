@@ -20,7 +20,8 @@ import {
   FaUserTie,
   FaSignOutAlt,
   FaCreditCard,
-  FaDownload
+  FaDownload,
+  FaGift
 } from "react-icons/fa";
 
 import { Input } from "@/components/ui/input";
@@ -225,7 +226,7 @@ export default function EnhancedOnboardingWidget() {
     rel="noopener noreferrer"
     className="bg-green-600 text-white hover:bg-green-700 rounded-lg shadow-md p-3 flex items-center space-x-2 transition-all duration-200"
   >
-    <FaDownload className="mr-2" />
+    <FaGift className="mr-2" />
     <span className="font-bold hidden lg:block">Download Investor List</span>
   </a>      
         {isSignedIn ? (
