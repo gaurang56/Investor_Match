@@ -285,6 +285,9 @@ export default function EnhancedDynamicLandingPage() {
               <Button size="lg" className={`mr-4 ${darkMode ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-indigo-600 hover:bg-indigo-700'} text-white`}>
                 Get Started Now - It's Free
               </Button>
+              <Button size="lg" className={`mr-4 ${darkMode ? 'bg-emerald-500 hover:bg-emerald-600' : 'bg-green-500 hover:bg-green-600'} text-white`}>
+                Claim Your Investor List
+              </Button>
             </a>
             
           </motion.div>
