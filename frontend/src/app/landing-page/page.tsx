@@ -461,9 +461,7 @@ export default function EnhancedDynamicLandingPage() {
                     </ul>
                   </CardContent>
                   <CardFooter>
-                    <Button className={`w-full ${darkMode ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-indigo-600 hover:bg-indigo-700'} text-white`}>
-                      Get Started
-                    </Button>
+                    
                   </CardFooter>
                 </Card>
               </motion.div>
