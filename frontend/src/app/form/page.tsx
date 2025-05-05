@@ -220,7 +220,7 @@ export default function EnhancedOnboardingWidget() {
         </a>
 )}
 
-<a
+{/* <a
     href="https://drive.google.com/file/d/1Dge5JAw3CUnNr3C47I_ZI67cCnu_kf7f/view?usp=sharing" 
     target="_blank"
     rel="noopener noreferrer"
@@ -228,7 +228,7 @@ export default function EnhancedOnboardingWidget() {
   >
     <FaGift className="mr-2" />
     <span className="font-bold hidden lg:block">Download Investor List</span>
-  </a>      
+  </a>  */}     
         {isSignedIn ? (
           <SignOutButton>
             <div  className="bg-white bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-lg shadow-md p-3 flex items-center space-x-2">
